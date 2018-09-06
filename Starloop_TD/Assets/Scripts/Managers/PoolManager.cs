@@ -62,12 +62,12 @@ public class PoolManager : MonoBehaviour
 	{
 		containerObject = new GameObject("PoolManager");
 
-		pooledObjects = new List<GameObject>[prefabs.Length];
+		pooledObjects = new Dictionary<PrefabType, List<GameObject>>();
 
 		for (int i = 0; i < prefabs.Length; i++)
 		{
 			Prefab prefab = prefabs[i];
-			pooledObjects[i] = new List<GameObject>();
+			pooledObjects[prefab.type] = new List<GameObject>();
 
 			for (int n = 0; n < prefab.amount; n++)
 			{
@@ -82,15 +82,5 @@ public class PoolManager : MonoBehaviour
 	// Pools the object specified.  Will not be pooled if there is no prefab of that type.
 	public void PoolObject(GameObject obj)
 	{
-		for (int i = 0; i < prefabs.Length; i++)
-		{
-			if (prefabs[i].objectPrefab.name == obj.name)
-			{
-				obj.SetActive(false);
-				obj.transform.parent = containerObject.transform;
-				pooledObjects[i].Add(obj);
-				return;
-			}
-		}
 	}
 }
