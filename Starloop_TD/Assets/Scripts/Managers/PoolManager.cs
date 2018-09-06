@@ -38,9 +38,6 @@ public class PoolManager : MonoBehaviour
 
 	GameObject containerObject;
 
-	[SerializeField]
-	Transform latticeTransform;
-
 	void Awake()
 	{
 		instance = this;
@@ -50,14 +47,13 @@ public class PoolManager : MonoBehaviour
 	void Initialize()
 	{
 		containerObject = new GameObject("PoolManager");
-
+		
 		pooledObjects = new Dictionary<PrefabType, List<GameObject>>();
 
 		for (int i = 0; i < prefabs.Length; i++)
 		{
 			Prefab prefab = prefabs[i];
 			pooledObjects[prefab.type] = new List<GameObject>();
-
 			for (int n = 0; n < prefab.amount; n++)
 			{
 				GameObject newObj = Instantiate(prefab.objectPrefab) as GameObject;
@@ -111,7 +107,6 @@ public class PoolManager : MonoBehaviour
 			{
 				GameObject pooledObject = objects[0];
 				objects.RemoveAt(0);
-				pooledObject.transform.parent = latticeTransform;
 				pooledObject.SetActive(true);
 
 				return pooledObject;
@@ -123,7 +118,6 @@ public class PoolManager : MonoBehaviour
 					if (prefabs[i].type.ToString() == objectType)
 					{
 						GameObject pooledObject = Instantiate(prefabs[i].objectPrefab) as GameObject;
-						pooledObject.transform.parent = latticeTransform;
 						return pooledObject;
 					}					
 				}				
