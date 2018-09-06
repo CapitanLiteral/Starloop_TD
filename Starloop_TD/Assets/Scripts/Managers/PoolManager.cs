@@ -81,6 +81,66 @@ public class PoolManager : MonoBehaviour
 			}
 		}
 	}
+
+	//Getters and Setters
+
+	public GameObject GetObjectByType(PrefabType objectType, bool onlyPooled = false)
 	{
+		return GetObjectByType(objectType.ToString(), onlyPooled);
+	}
+
+	public GameObject GetObjectByType(string objectType, bool onlyPooled = false)
+	{
+		bool typeExist = false;
+
+		//If type does not exist we do not iterate the main list
+		string[] GameObjectTypes = System.Enum.GetNames(typeof(PrefabType));
+		foreach (string type in GameObjectTypes)
+		{
+			if (type == objectType)
+			{
+				typeExist = true;
+			}
+		}
+		//If type exists we proceed to find an object.
+		if (typeExist)
+		{
+			PrefabType type = (PrefabType)Enum.Parse(typeof(PrefabType), objectType);
+			List<GameObject> objects = pooledObjects[type];
+			if (objects.Count > 0)
+			{
+				GameObject pooledObject = objects[0];
+				objects.RemoveAt(0);
+				pooledObject.transform.parent = latticeTransform;
+				pooledObject.SetActive(true);
+
+				return pooledObject;
+			}
+			else if(!onlyPooled)
+			{
+				for (int i = 0; i < prefabs.Length; i++)
+				{
+					if (prefabs[i].type.ToString() == objectType)
+					{
+						GameObject pooledObject = Instantiate(prefabs[i].objectPrefab) as GameObject;
+						pooledObject.transform.parent = latticeTransform;
+						return pooledObject;
+					}					
+				}				
+			}
+			else
+			{
+				Debug.LogWarning("There is no pooled object of type " + objectType + "(check 'onlyPooled' parameter)", this); // idk if I should use 'this' as context...
+			}
+			
+			
+		}
+		else
+		{
+			Debug.LogError("There is no object of type " + objectType + " in the pool", this); // idk if I should use 'this' as context...
+		}
+
+
+		return null;
 	}
 }
