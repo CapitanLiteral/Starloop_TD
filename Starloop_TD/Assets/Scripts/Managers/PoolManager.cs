@@ -34,7 +34,7 @@ public class PoolManager : MonoBehaviour
 	public Prefab[] prefabs;
 
 	// Stores the available pooled objects
-	public List<GameObject>[] pooledObjects;
+	public Dictionary<PrefabType, List<GameObject>> pooledObjects;
 
 	GameObject containerObject;
 
