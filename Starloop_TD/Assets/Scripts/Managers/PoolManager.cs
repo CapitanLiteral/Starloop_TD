@@ -19,14 +19,14 @@ public class PoolManager : MonoBehaviour
 
 	//Type of accepted prefabs
 	public enum PrefabType
-    {
-        TILE,
-        ENEMY_NORMAL,
-        ENEMY_FAST,
-        ENEMY_HEAVY,
-        TURRET_LASER,
-        TURRET_CANNON
-    }
+	{
+		TILE,
+		ENEMY_NORMAL,
+		ENEMY_FAST,
+		ENEMY_HEAVY,
+		TURRET_LASER,
+		TURRET_CANNON
+	}
 
 	public static PoolManager instance = null;
 
@@ -38,25 +38,14 @@ public class PoolManager : MonoBehaviour
 
 	GameObject containerObject;
 
+	[SerializeField]
+	Transform latticeTransform;
+
 	void Awake()
 	{
 		instance = this;
 		Initialize();
 	}
-
-	// Use this for initialization
-	void Start ()
-    {
-		
-	}
-	
-	// Update is called once per frame
-	void Update ()
-    {
-		
-	}
-
-
 
 	void Initialize()
 	{
@@ -78,9 +67,20 @@ public class PoolManager : MonoBehaviour
 		}
 	}
 
-
 	// Pools the object specified.  Will not be pooled if there is no prefab of that type.
 	public void PoolObject(GameObject obj)
+	{
+		for (int i = 0; i < prefabs.Length; i++)
+		{
+			if (prefabs[i].objectPrefab.name == obj.name)
+			{
+				obj.SetActive(false);
+				obj.transform.parent = containerObject.transform;
+				pooledObjects[prefabs[i].type].Add(obj);
+				return;
+			}
+		}
+	}
 	{
 	}
 }
