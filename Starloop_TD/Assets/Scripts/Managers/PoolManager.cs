@@ -12,6 +12,7 @@ public class PoolManager : MonoBehaviour
 	[Serializable]
 	public struct Prefab
 	{
+		public PrefabType type;
 		public int amount;
 		public GameObject objectPrefab;
 	}
