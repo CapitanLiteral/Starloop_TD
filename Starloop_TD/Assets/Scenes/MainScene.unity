@@ -447,7 +447,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3e6a1bc9dd263746b848df1d0bda788, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabs: []
+  prefabs:
+  - type: 1
+    amount: 1
+    objectPrefab: {fileID: 1142105607095852, guid: 493f9948922bd2242bc4246f96cb1479,
+      type: 2}
+  - type: 2
+    amount: 1
+    objectPrefab: {fileID: 1952628326302898, guid: ffae9d346e24ebb488d22fc2a4519f3d,
+      type: 2}
+  - type: 3
+    amount: 1
+    objectPrefab: {fileID: 1753060171496944, guid: 5d0a527bb75c68749b463ab287bdd83a,
+      type: 2}
+  - type: 4
+    amount: 1
+    objectPrefab: {fileID: 1292518075823644, guid: a56b8e455e15580499d5ce3903f61a7e,
+      type: 2}
+  - type: 5
+    amount: 1
+    objectPrefab: {fileID: 1779099088120320, guid: 210c58b7ec9033341b02fca963f9e776,
+      type: 2}
+  - type: 0
+    amount: 1
+    objectPrefab: {fileID: 1013496739781386, guid: 7fc97e58ea6dcb9448c1d572b66b5195,
+      type: 2}
+  latticeTransform: {fileID: 0}
 --- !u!1 &1431453373
 GameObject:
   m_ObjectHideFlags: 0
