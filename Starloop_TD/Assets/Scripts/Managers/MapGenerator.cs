@@ -19,6 +19,17 @@ public class MapGenerator : MonoBehaviour {
 	void Awake()
 	{
 		map = new GameObject("Map");
+		pm = GetComponent<PoolManager>();
+		foreach (var prefab in pm.prefabs)
+		{
+			if (prefab.type == PoolManager.PrefabType.TILE)
+			{
+				tileSize = new Vector3(prefab.objectPrefab.transform.localScale.x, 
+										prefab.objectPrefab.transform.localScale.y, 
+										prefab.objectPrefab.transform.localScale.z);
+			}
+		}
+		
 	}
 	void Start()
 	{
@@ -62,4 +73,18 @@ public class MapGenerator : MonoBehaviour {
 		}
 	}
 	
+	Vector3 MapToWorldPosition(Vector2 tile)
+	{
+		Vector2 worldMapSize = new Vector2((mapSize.x * tileSize.x) + (offset * (mapSize.x-1)),
+											(mapSize.x * tileSize.z) + (offset * (mapSize.x - 1)));
+		Debug.Log("World Size:" + worldMapSize);
+		return new Vector3((-worldMapSize.x / 2)+(tileSize.x + offset) * tile.x + tileSize.x / 2, 
+							0,
+							(worldMapSize.y / 2) - (tileSize.z + offset) * tile.y - tileSize.z / 2);
+	}
+	Vector2 WorldToMapPosition(Vector2 worldPosition)
+	{
+		return new Vector2(0, 0);
+	}
+
 }
