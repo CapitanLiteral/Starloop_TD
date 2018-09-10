@@ -34,25 +34,6 @@ public class MapGenerator : MonoBehaviour {
 	void Start()
 	{
 		GenerateMap(mapSize);
-		//Vector2 pos = MapToWorldPosition(new Vector2(0, 0));
-		GameObject cube;// = GameObject.CreatePrimitive(PrimitiveType.Cube);
-		//cube.transform.position = new Vector3(pos.x, 0, pos.y);
-
-		/*cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-		cube.transform.position = MapToWorldPosition(new Vector2(0, 0));
-		
-		cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-		cube.transform.position = MapToWorldPosition(new Vector2(3, 0));
-
-		cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-		cube.transform.position = MapToWorldPosition(new Vector2(3, 3));
-
-		cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-		cube.transform.position = MapToWorldPosition(new Vector2(0, 3));
-
-		cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-		cube.transform.position = MapToWorldPosition(new Vector2(2, 2));*/
-
 	}
 
 	void GenerateMap(Vector2 size)
@@ -66,25 +47,32 @@ public class MapGenerator : MonoBehaviour {
 				go.transform.position = new Vector3(((i - mapSize.x / 2) * (tileSize.x + offset)) + (tileSize.x / 2  + offset / 2), 
 														0.0f, 
 														(j - mapSize.y / 2) * (tileSize.z + offset) + (tileSize.z / 2 + offset / 2));
-				Debug.Log("i: " + i + " j: " + j);
-				Debug.Log("Tile position: " + go.transform.position);
 				go.transform.parent = map.transform;
 			}
 		}
 	}
-	
+	//Converts map coords to wolrd coords
 	Vector3 MapToWorldPosition(Vector2 tile)
 	{
 		Vector2 worldMapSize = new Vector2((mapSize.x * tileSize.x) + (offset * (mapSize.x-1)),
 											(mapSize.x * tileSize.z) + (offset * (mapSize.x - 1)));
-		Debug.Log("World Size:" + worldMapSize);
 		return new Vector3((-worldMapSize.x / 2)+(tileSize.x + offset) * tile.x + tileSize.x / 2, 
 							0,
 							(worldMapSize.y / 2) - (tileSize.z + offset) * tile.y - tileSize.z / 2);
 	}
-	Vector2 WorldToMapPosition(Vector2 worldPosition)
+	//Converts world coords to map coords
+	Vector2 WorldToMapPosition(Vector3 worldPosition)
 	{
-		return new Vector2(0, 0);
+		Vector2 worldMapSize = new Vector2((mapSize.x * tileSize.x) + (offset * (mapSize.x - 1)),
+											(mapSize.x * tileSize.z) + (offset * (mapSize.x - 1)));
+
+		//I could't find a truncate method so I cast to int
+		int x = (int)(worldPosition.x + (worldMapSize.x / 2)) / 2;
+		int y = (int)Math.Abs((worldPosition.z - (worldMapSize.y / 2)) / 2);
+		//Control about positions that are away from map. In this case I prefer to get an edge tile before to return some null value or error message;
+		x = (int)Mathf.Clamp(x, 0, mapSize.x-1);
+		y = (int)Mathf.Clamp(y, 0, mapSize.y-1);
+		return new Vector2(x, y);
 	}
 
 }
