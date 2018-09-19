@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 
 
 //Singleton class
@@ -16,7 +14,7 @@ public class PoolManager : MonoBehaviour
 		public int amount;
 		public GameObject objectPrefab;
 	}
-
+	
 	//Type of accepted prefabs
 	public enum PrefabType
 	{

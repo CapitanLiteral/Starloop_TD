@@ -442,8 +442,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d82b4acc7557bd64cac9ef9dd4fdc750, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapSize: {x: 25, y: 25}
-  offset: 0.5
+  mapSize: {x: 10, y: 10}
+  tileOffset: 0.5
+  spawnerPosition: {x: 0, y: 5}
+  crystalPosition: {x: 9, y: 5}
+  spawnerPrefab: {fileID: 1508907122255752, guid: f979a92a3734b534b909e8be05387fd6,
+    type: 2}
+  crystalPrefab: {fileID: 1593821322708192, guid: 37bea426767f17f4483636884c8c14fd,
+    type: 2}
 --- !u!1 &1431453373
 GameObject:
   m_ObjectHideFlags: 0
