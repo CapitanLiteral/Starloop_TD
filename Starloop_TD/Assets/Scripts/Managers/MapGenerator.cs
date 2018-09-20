@@ -49,15 +49,15 @@ public class MapGenerator : MonoBehaviour {
 			}
 		}
 		//asdasdasdasdasdasdasd
-		bfs = new BFS(new Vector2Int(4, 4));
+		bfs = new BFS(new Vector2Int(10, 10));
 
 		Vector2Int start = new Vector2Int(0, 0);
-		Vector2Int end = new Vector2Int(3, 3);
+		Vector2Int end = new Vector2Int(9, 9);
 
-		bfs.map[1, 0].walkable = false;
-		bfs.map[1, 1].walkable = false;
-		bfs.map[1, 2].walkable = false;
-		bfs.map[1, 3].walkable = false;
+		//bfs.map[1, 0].walkable = false;
+		//bfs.map[1, 1].walkable = false;
+		//bfs.map[1, 2].walkable = false;
+		//bfs.map[1, 3].walkable = false;
 
 		path = bfs.FindPath(start, end);
 

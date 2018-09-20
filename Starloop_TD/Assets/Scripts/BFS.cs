@@ -47,6 +47,7 @@ public class BFS
 	//Finds a path to a node, if there is no path returns null
 	public List<BFSnode> FindPath(Vector2Int start, Vector2Int end)
 	{
+		float time = Time.realtimeSinceStartup;
 		Start = start;
 		End = end;
 
@@ -73,6 +74,7 @@ public class BFS
 				ExploredNodes.Add(actualNode);
 			} 
 
+			//Filling path
 			while (actualNode.position != startNode.position)
 			{
 				ret.Add(actualNode);
@@ -83,12 +85,31 @@ public class BFS
 			}
 			ret.Reverse();
 
+			// Delete useless nodes
+			Vector2Int dir = ret[1].position - ret[0].position;
+			for (int i = 0; i < ret.Count; i++)
+			{
+				if (ret[i].position != end)
+				{
+
+					Vector2Int tmpDir = ret[i + 1].position - ret[i].position;
+					if (tmpDir == dir)
+					{
+						//don't keep the node
+						ret.RemoveAt(i--);
+					}
+					dir = tmpDir;
+				}
+			}
+
 			if (ret[ret.Count - 1].position != end)
 			{
 				ret = null;
 			}
 		}
 
+		time = (Time.realtimeSinceStartup - time) * 1000.0f;
+		Debug.Log("Path found in " + time + "ms");
 		return ret;
 	}
 
