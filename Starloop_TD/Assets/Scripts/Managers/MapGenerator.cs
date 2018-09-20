@@ -49,15 +49,15 @@ public class MapGenerator : MonoBehaviour {
 			}
 		}
 		//asdasdasdasdasdasdasd
-		bfs = new BFS(new Vector2Int(10, 10));
+		bfs = new BFS(new Vector2Int(4, 4));
 
 		Vector2Int start = new Vector2Int(0, 0);
-		Vector2Int end = new Vector2Int(9, 9);
+		Vector2Int end = new Vector2Int(3, 3);
 
-		//bfs.map[1, 0].walkable = false;
-		//bfs.map[1, 1].walkable = false;
-		//bfs.map[1, 2].walkable = false;
-		//bfs.map[1, 3].walkable = false;
+		bfs.map[1, 0].walkable = false;
+		bfs.map[1, 1].walkable = false;
+		bfs.map[1, 2].walkable = false;
+		bfs.map[1, 3].walkable = false;
 
 		path = bfs.FindPath(start, end);
 
@@ -131,11 +131,12 @@ public class MapGenerator : MonoBehaviour {
 	void OnDrawGizmos()
 	{
 		// Draw a semitransparent blue cube at the transforms position
-		foreach (var bfSnode in path)
-		{
-			Gizmos.color = new Color(1, 0, 0, 0.5f);
-			Gizmos.DrawCube(MapToWorldPosition(bfSnode.position), new Vector3(1, 1, 1));
-		}
+		if (path != null)
+			foreach (var bfSnode in path)
+			{
+				Gizmos.color = new Color(1, 0, 0, 0.5f);
+				Gizmos.DrawCube(MapToWorldPosition(bfSnode.position), new Vector3(1, 1, 1));
+			}
 	}
 
 

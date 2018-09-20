@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class BFSnode
@@ -42,6 +43,8 @@ public class BFS
 		}
 	}
 
+
+	//Finds a path to a node, if there is no path returns null
 	public List<BFSnode> FindPath(Vector2Int start, Vector2Int end)
 	{
 		Start = start;
@@ -55,36 +58,43 @@ public class BFS
 		if (Start != End)
 		{
 			BFSnode actualNode = startNode;
-			//while (actualNode.position != endNode.position)
-			while (actualNode.position != endNode.position)
+			OpenList.Enqueue(startNode);
+			while ((actualNode.position != endNode.position) && OpenList.Any())
 			{
-				//Add neighbours to the open list
-				List<BFSnode> neighbours = GetNeighbourNodes(actualNode);
-				foreach (var neighbour in neighbours)
+				actualNode = OpenList.Dequeue();
+				//Add neighbors to the open list
+				List<BFSnode> neighbors = GetNeighborNodes(actualNode);
+				foreach (var neighbor in neighbors)
 				{
-					neighbour.parent = actualNode;
-					OpenList.Enqueue(neighbour);
+					neighbor.parent = actualNode;
+					OpenList.Enqueue(neighbor);
 				}
 
 				ExploredNodes.Add(actualNode);
-
-				actualNode = OpenList.Dequeue();
 			} 
 
 			while (actualNode.position != startNode.position)
 			{
 				ret.Add(actualNode);
+				BFSnode tmpNode = actualNode;
 				actualNode = actualNode.parent;
+				//Resetting parent status for the next path finding
+				tmpNode.parent = null;
 			}
 			ret.Reverse();
+
+			if (ret[ret.Count - 1].position != end)
+			{
+				ret = null;
+			}
 		}
 
 		return ret;
 	}
 
-	List<BFSnode> GetNeighbourNodes(BFSnode center)
+	List<BFSnode> GetNeighborNodes(BFSnode center)
 	{
-		List<BFSnode> neighbours = new List<BFSnode>();
+		List<BFSnode> neighbors = new List<BFSnode>();
 
 		if (!(center.position.x - 1 < 0))
 		{
@@ -93,7 +103,7 @@ public class BFS
 			      ExploredNodes.Contains(left)))
 			{
 				if (left.walkable)
-					neighbours.Add(left);
+					neighbors.Add(left);
 			}
 		}
 		if (!(center.position.x + 1 >= Size.x))
@@ -103,7 +113,7 @@ public class BFS
 			      ExploredNodes.Contains(right)))
 			{
 				if (right.walkable)
-					neighbours.Add(right);
+					neighbors.Add(right);
 			}
 		}
 		if (!(center.position.y - 1 < 0))
@@ -113,7 +123,7 @@ public class BFS
 			      ExploredNodes.Contains(top)))
 			{
 				if (top.walkable)
-					neighbours.Add(top);
+					neighbors.Add(top);
 			}
 		}
 		if (!(center.position.y + 1 >= Size.y))
@@ -123,11 +133,11 @@ public class BFS
 			      ExploredNodes.Contains(bottom)))
 			{
 				if(bottom.walkable)
-					neighbours.Add(bottom);
+					neighbors.Add(bottom);
 			}
 		}
 
-		return neighbours;
+		return neighbors;
 	}
 
 }
