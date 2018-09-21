@@ -16,6 +16,8 @@ public class MobMove : MonoBehaviour
 	Vector3 target;
 	int pathIndex = 0;
 
+	public bool active = false;
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -42,7 +44,7 @@ public class MobMove : MonoBehaviour
 	{
 		if (pathIndex >= Path.Count - 1)
 		{
-			Pool.PoolObject(gameObject);
+			active = false;
 		}
 		else
 		{

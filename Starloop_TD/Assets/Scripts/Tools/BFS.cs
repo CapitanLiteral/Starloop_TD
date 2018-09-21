@@ -77,6 +77,11 @@ public class BFS : MonoBehaviour
 				}
 			}
 
+			if (ret.Count == 0)
+			{
+				Debug.LogError("Error BFS");
+			}
+
 			if (ret[ret.Count - 1] != end)
 			{
 				ret = null;

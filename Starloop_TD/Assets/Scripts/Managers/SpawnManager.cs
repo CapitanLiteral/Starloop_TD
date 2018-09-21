@@ -40,13 +40,20 @@ public class SpawnManager : MonoBehaviour
 		tmp.GetComponent<MobMove>().SetPath(Path);*/
 
 		StartCoroutine(SpawnWave());
-		
+
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
-		
+		foreach (var item in activeEnemies)
+		{
+			if (!item.active)
+			{
+				Pool.PoolObject(item.gameObject);
+				activeEnemies.Remove(item);
+			}
+		}
 	}
 
 	private void OnDrawGizmos()
@@ -67,7 +74,10 @@ public class SpawnManager : MonoBehaviour
 		{
 			for (int j = 0; j < 5; j++)
 			{
-				activeEnemies.Add(SpawnEnemyNormal());
+				MobMove mob = SpawnEnemyNormal();
+				activeEnemies.Add(mob);
+				mob.active = true;
+
 				yield return new WaitForSeconds(0.5f);
 			}
 			yield return new WaitForSeconds(5f);
@@ -97,3 +107,4 @@ public class SpawnManager : MonoBehaviour
 		}
 	}
 }
+
