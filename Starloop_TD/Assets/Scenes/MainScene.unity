@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44606262, g: 0.4958226, b: 0.57449144, a: 1}
+  m_IndirectSpecularColor: {r: 0.4460619, g: 0.49582195, b: 0.5744912, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -189,7 +189,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &334142598
 Transform:
   m_ObjectHideFlags: 0
@@ -358,6 +358,7 @@ GameObject:
   - component: {fileID: 1056456672}
   - component: {fileID: 1056456673}
   - component: {fileID: 1056456674}
+  - component: {fileID: 1056456675}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -436,10 +437,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d82b4acc7557bd64cac9ef9dd4fdc750, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapSize: {x: 10, y: 10}
+  mapSize: {x: 5, y: 5}
   tileOffset: 0.5
   spawnerPosition: {x: 0, y: 0}
-  crystalPosition: {x: 9, y: 9}
+  crystalPosition: {x: 4, y: 4}
   spawnerPrefab: {fileID: 1351966857075262, guid: f979a92a3734b534b909e8be05387fd6,
     type: 2}
   crystalPrefab: {fileID: 1773017340204286, guid: 37bea426767f17f4483636884c8c14fd,
@@ -455,6 +456,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe63ae72b221a094eafdf851836c4e34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Map: {fileID: 1056456673}
+--- !u!114 &1056456675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1056456669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cefd79ee16691542b708f0fdcfd5f7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1431453373

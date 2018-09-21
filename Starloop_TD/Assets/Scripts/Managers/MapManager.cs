@@ -1,6 +1,21 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+public class Tile
+{
+	public bool Walkable;
+	public Vector2 Position;
+	public Tile parent;
+	public bool HasTurret = false;
+
+	public Tile(Vector2 position, bool walkable = true, Tile parent = null)
+	{
+		Position = position;
+		Walkable = walkable;
+		HasTurret = false;
+		this.parent = parent;
+	}
+}
 
 public class MapManager : MonoBehaviour {
 	PoolManager pm;
@@ -15,7 +30,7 @@ public class MapManager : MonoBehaviour {
 	Vector3 tileSize;
 
 	//Logic map to use BFS
-	public BFSnode[,] nodeMap;
+	public Tile[,] TileMap;
 
 	#endregion
 
@@ -82,8 +97,7 @@ public class MapManager : MonoBehaviour {
 	// Generates the map and sets Crystal and Spawner locations
 	void GenerateMap(Vector2 size)
 	{
-		nodeMap = new BFSnode[(int)mapSize.x, (int)mapSize.y];
-		Debug.Log(nodeMap.GetLength(0));
+		TileMap = new Tile[(int)mapSize.x, (int)mapSize.y];
 		//Generating the grid
 		for (int i = 0; i < mapSize.x; i++)
 		{
@@ -95,7 +109,7 @@ public class MapManager : MonoBehaviour {
 														0.0f, 
 														(j - mapSize.y / 2) * (tileSize.z + tileOffset) + (tileSize.z / 2 + tileOffset / 2));
 				go.transform.parent = map.transform;
-				nodeMap[i, j] = new BFSnode(new Vector2(i, j));
+				TileMap[i, j] = new Tile(new Vector2(i, j));
 			}
 		}
 
@@ -125,7 +139,7 @@ public class MapManager : MonoBehaviour {
 	{
 		Vector2 worldMapSize = new Vector2((mapSize.x * tileSize.x) + (tileOffset * (mapSize.x - 1)),
 											(mapSize.y * tileSize.z) + (tileOffset * (mapSize.y - 1)));
-
+		/*
 		//I could't find a truncate method so I cast to int
 		int x = (int)(worldPosition.x + (worldMapSize.x / 2)) / 2;
 		int y = (int)Mathf.Abs((worldPosition.z - (worldMapSize.y / 2)) / 2);
@@ -133,8 +147,22 @@ public class MapManager : MonoBehaviour {
 		x = (int)Mathf.Clamp(x, 0, mapSize.x-1);
 		y = (int)Mathf.Clamp(y, 0, mapSize.y-1);
 		return new Vector2(x, y);
+		*/
+
+		float px = (worldPosition.x + (worldMapSize.x / 2)) / worldMapSize.x;
+		float py = 1 - (worldPosition.z + (worldMapSize.y / 2)) / worldMapSize.y;
+
+		px = Mathf.Clamp01(px);
+		py = Mathf.Clamp01(py);
+
+		int x = (int)(mapSize.x * px);
+		int y = (int)(mapSize.y * py);
+
+		return new Vector2(x, y);
+
 	}
 
 
 
 }
+

@@ -2,46 +2,41 @@
 using System.Linq;
 using UnityEngine;
 
-public class BFSnode 
-{
-	public bool walkable;
-	public Vector2 position;
-	public BFSnode parent;
 
-	public BFSnode(Vector2 _position, bool _walkable = true, BFSnode _parent = null)
-	{
-		position = _position;
-		walkable = _walkable;
-		parent = _parent;
-	}
-}
 
 public class BFS : MonoBehaviour
 {
-	public Queue<BFSnode> OpenList;
-	public List<BFSnode> ExploredNodes { get; private set; }
+	public Queue<Tile> OpenList;
+	public List<Tile> ExploredNodes { get; private set; }
+
+	[SerializeField]
+	MapManager Map;
 
 	//Finds a path to a node, if there is no path returns null
-	public List<BFSnode> FindPath(Vector2 start, Vector2 end, BFSnode[,] map)
+	public List<Vector3> FindPath(Vector3 start, Vector3 end)
 	{
-		OpenList = new Queue<BFSnode>();
-		ExploredNodes = new List<BFSnode>();
 		float time = Time.realtimeSinceStartup;
 
-		BFSnode startNode = map[(int)start.x, (int)start.y];
-		BFSnode endNode = map[(int)end.x, (int)end.y];
+		OpenList = new Queue<Tile>();
+		ExploredNodes = new List<Tile>();		
 
-		List<BFSnode> ret = new List<BFSnode>();
+		Vector2 startMapPos = Map.WorldToMapPosition(start);
+		Vector2 endMapPos = Map.WorldToMapPosition(end);
+
+		Tile startNode = Map.TileMap[(int)startMapPos.x, (int)startMapPos.y];
+		Tile endNode = Map.TileMap[(int)endMapPos.x, (int)endMapPos.y];
+
+		List<Vector3> ret = new List<Vector3>();
 
 		if (start != end)
 		{
-			BFSnode actualNode = startNode;
+			Tile actualNode = startNode;
 			OpenList.Enqueue(startNode);
-			while ((actualNode.position != endNode.position) && OpenList.Any())
+			while ((actualNode.Position != endNode.Position) && OpenList.Any())
 			{
 				actualNode = OpenList.Dequeue();
 				//Add neighbors to the open list
-				List<BFSnode> neighbors = GetNeighborNodes(actualNode, map);
+				List<Tile> neighbors = GetNeighborNodes(actualNode);
 				foreach (var neighbor in neighbors)
 				{
 					neighbor.parent = actualNode;
@@ -52,10 +47,10 @@ public class BFS : MonoBehaviour
 			} 
 
 			//Filling path
-			while (actualNode.position != startNode.position)
+			while (actualNode.Position != startNode.Position)
 			{
-				ret.Add(actualNode);
-				BFSnode tmpNode = actualNode;
+				ret.Add(Map.MapToWorldPosition(actualNode.Position));
+				Tile tmpNode = actualNode;
 				actualNode = actualNode.parent;
 				//Resetting parent status for the next path finding
 				tmpNode.parent = null;
@@ -65,13 +60,13 @@ public class BFS : MonoBehaviour
 			// Delete useless nodes
 			if (ret.Count > 1)
 			{
-				Vector2 dir = ret[1].position - ret[0].position;
+				Vector3 dir = ret[1] - ret[0];
 				for (int i = 0; i < ret.Count; i++)
 				{
-					if (ret[i].position != end)
+					if (ret[i] != end)
 					{
 
-						Vector2 tmpDir = ret[i + 1].position - ret[i].position;
+						Vector3 tmpDir = ret[i + 1] - ret[i];
 						if (tmpDir == dir)
 						{
 							//don't keep the node
@@ -82,7 +77,7 @@ public class BFS : MonoBehaviour
 				}
 			}
 
-			if (ret[ret.Count - 1].position != end)
+			if (ret[ret.Count - 1] != end)
 			{
 				ret = null;
 			}
@@ -93,47 +88,47 @@ public class BFS : MonoBehaviour
 		return ret;
 	}
 
-	List<BFSnode> GetNeighborNodes(BFSnode center, BFSnode[,] map)
+	List<Tile> GetNeighborNodes(Tile center)
 	{
-		List<BFSnode> neighbors = new List<BFSnode>();
+		List<Tile> neighbors = new List<Tile>();
 		
-		if (!(center.position.x - 1 < 0))
+		if (!(center.Position.x - 1 < 0))
 		{
-			BFSnode left = map[(int)center.position.x - 1, (int)center.position.y];
+			Tile left = Map.TileMap[(int)center.Position.x - 1, (int)center.Position.y];
 			if (!(OpenList.Contains(left) ||
 			      ExploredNodes.Contains(left)))
 			{
-				if (left.walkable)
+				if (left.Walkable)
 					neighbors.Add(left);
 			}
 		}
-		if (!(center.position.x + 1 >= map.GetLength(0)))
+		if (!(center.Position.x + 1 >= Map.TileMap.GetLength(0)))
 		{
-			BFSnode right = map[(int)center.position.x + 1, (int)center.position.y];
+			Tile right = Map.TileMap[(int)center.Position.x + 1, (int)center.Position.y];
 			if (!(OpenList.Contains(right) ||
 			      ExploredNodes.Contains(right)))
 			{
-				if (right.walkable)
+				if (right.Walkable)
 					neighbors.Add(right);
 			}
 		}
-		if (!(center.position.y - 1 < 0))
+		if (!(center.Position.y - 1 < 0))
 		{
-			BFSnode top = map[(int)center.position.x, (int)center.position.y - 1];
+			Tile top = Map.TileMap[(int)center.Position.x, (int)center.Position.y - 1];
 			if (!(OpenList.Contains(top) ||
 			      ExploredNodes.Contains(top)))
 			{
-				if (top.walkable)
+				if (top.Walkable)
 					neighbors.Add(top);
 			}
 		}
-		if (!(center.position.y + 1 >= map.GetLength(1)))
+		if (!(center.Position.y + 1 >= Map.TileMap.GetLength(1)))
 		{
-			BFSnode bottom = map[(int)center.position.x, (int)center.position.y + 1];
+			Tile bottom = Map.TileMap[(int)center.Position.x, (int)center.Position.y + 1];
 			if (!(OpenList.Contains(bottom) ||
 			      ExploredNodes.Contains(bottom)))
 			{
-				if(bottom.walkable)
+				if(bottom.Walkable)
 					neighbors.Add(bottom);
 			}
 		}

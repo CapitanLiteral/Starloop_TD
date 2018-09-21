@@ -20,8 +20,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4830547308161310}
   - component: {fileID: 33726823902998736}
-  - component: {fileID: 64727698279264986}
   - component: {fileID: 23183487922402816}
+  - component: {fileID: 65366499877717120}
   m_Layer: 0
   m_Name: Tile
   m_TagString: Untagged
@@ -81,8 +81,8 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1554544783933994}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!64 &64727698279264986
-MeshCollider:
+--- !u!65 &65366499877717120
+BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -91,7 +91,5 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Convex: 0
-  m_InflateMesh: 0
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Size: {x: 2.25, y: 0.2, z: 2.25}
+  m_Center: {x: 0, y: 0, z: 0}

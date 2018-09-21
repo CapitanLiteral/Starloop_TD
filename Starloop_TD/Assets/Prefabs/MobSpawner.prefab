@@ -121,4 +121,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4a2f68aea2922847951f25c2431dc97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pathfinder: {fileID: 0}
+  Pathfinder: {fileID: 0}
+  normalEnemy: {fileID: 1187188930326162, guid: 493f9948922bd2242bc4246f96cb1479,
+    type: 2}

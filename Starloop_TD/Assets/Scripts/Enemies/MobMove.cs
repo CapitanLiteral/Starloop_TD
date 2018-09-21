@@ -44,12 +44,15 @@ public class MobMove : MonoBehaviour
 		{
 			Pool.PoolObject(gameObject);
 		}
+		else
+		{
+			pathIndex++;
+			target = Path[pathIndex];
+		}
 
-		pathIndex++;
-		target = Path[pathIndex];
 	}
 
-	void SetPath(List<Vector3> path)
+	public void SetPath(List<Vector3> path)
 	{
 		Path = path;
 		pathIndex = 0;
