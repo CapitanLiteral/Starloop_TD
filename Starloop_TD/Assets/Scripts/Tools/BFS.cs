@@ -60,7 +60,7 @@ public class BFS : MonoBehaviour
 			// Delete useless nodes
 			if (ret.Count > 1)
 			{
-				Vector3 dir = ret[1] - ret[0];
+				Vector3 dir = Vector3.zero;// ret[1] - ret[0];
 				for (int i = 0; i < ret.Count; i++)
 				{
 					if (ret[i] != end)

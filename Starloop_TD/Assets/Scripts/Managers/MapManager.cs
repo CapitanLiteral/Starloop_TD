@@ -65,10 +65,11 @@ public class MapManager : MonoBehaviour {
 										prefab.objectPrefab.transform.localScale.z);
 			}
 		}
+		GenerateMap(mapSize);
 	}
 	void Start()
 	{
-		GenerateMap(mapSize);
+		
 	}
 
 #if UNITY_EDITOR

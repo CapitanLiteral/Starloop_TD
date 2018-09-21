@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Spawner : MonoBehaviour
+public class SpawnManager : MonoBehaviour
 {
 	[SerializeField]
 	BFS Pathfinder;
@@ -19,6 +19,8 @@ public class Spawner : MonoBehaviour
 	[SerializeField]
 	int Waves = 5;
 
+	List<MobMove> activeEnemies;
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -26,6 +28,8 @@ public class Spawner : MonoBehaviour
 		Pathfinder = FindObjectOfType<BFS>();
 		Map = FindObjectOfType<MapManager>();
 		Crystal = Map.crystal;
+
+		activeEnemies = new List<MobMove>();
 
 		Path = Pathfinder.FindPath(transform.position, Crystal.transform.position);
 
@@ -47,14 +51,14 @@ public class Spawner : MonoBehaviour
 
 	private void OnDrawGizmos()
 	{
-		/*if (Path != null)
+		if (Path != null)
 		{
 			foreach (var item in Path)
 			{
 				Gizmos.color = Color.red;
 				Gizmos.DrawCube(item, Vector3.one);
 			}
-		}*/
+		}
 	}
 
 	IEnumerator SpawnWave()
@@ -63,21 +67,33 @@ public class Spawner : MonoBehaviour
 		{
 			for (int j = 0; j < 5; j++)
 			{
-				SpawnEnemyNormal();
+				activeEnemies.Add(SpawnEnemyNormal());
 				yield return new WaitForSeconds(0.5f);
 			}
 			yield return new WaitForSeconds(5f);
 		}
 	}
 
-	GameObject SpawnEnemyNormal()
+	MobMove SpawnEnemyNormal()
 	{
 		GameObject tmp = Pool.GetObjectByType(PoolManager.PrefabType.ENEMY_NORMAL);
 		tmp.transform.parent = transform;
 		tmp.transform.position = transform.position;
 
-		tmp.GetComponent<MobMove>().SetPath(Path);
+		MobMove ret = tmp.GetComponent<MobMove>();
+		ret.SetPath(Path);
 
-		return tmp;
+		return ret;
+	}
+
+	public void RecalculatePath()
+	{
+		Path = Pathfinder.FindPath(transform.position, Crystal.transform.position);
+		foreach (var item in activeEnemies)
+		{
+			List<Vector3> tempPath = Pathfinder.FindPath(item.transform.position, Crystal.transform.position);
+			Debug.Log(tempPath);
+			item.SetPath(tempPath);
+		}
 	}
 }
