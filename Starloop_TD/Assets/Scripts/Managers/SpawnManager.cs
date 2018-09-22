@@ -19,7 +19,7 @@ public class SpawnManager : MonoBehaviour
 	[SerializeField]
 	int Waves = 5;
 
-	List<MobMove> activeEnemies;
+	List<Mobile> activeEnemies;
 
 	// Use this for initialization
 	void Start ()
@@ -29,7 +29,7 @@ public class SpawnManager : MonoBehaviour
 		Map = FindObjectOfType<MapManager>();
 		Crystal = Map.crystal;
 
-		activeEnemies = new List<MobMove>();
+		activeEnemies = new List<Mobile>();
 
 		Path = Pathfinder.FindPath(transform.position, Crystal.transform.position);
 
@@ -85,7 +85,7 @@ public class SpawnManager : MonoBehaviour
 		//}
 		while (true)
 		{
-			MobMove mob = SpawnEnemyNormal();
+			Mobile mob = SpawnEnemyNormal();
 			activeEnemies.Add(mob);
 			mob.active = true;
 			yield return new WaitForSeconds(0.5f);
@@ -93,13 +93,13 @@ public class SpawnManager : MonoBehaviour
 
 	}
 
-	MobMove SpawnEnemyNormal()
+	Mobile SpawnEnemyNormal()
 	{
 		GameObject tmp = Pool.GetObjectByType(PoolManager.PrefabType.ENEMY_NORMAL);
 		tmp.transform.parent = transform;
 		tmp.transform.position = transform.position;
 
-		MobMove ret = tmp.GetComponent<MobMove>();
+		Mobile ret = tmp.GetComponent<Mobile>();
 		ret.SetPath(Path);
 
 		return ret;

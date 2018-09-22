@@ -57,10 +57,7 @@ public class BFS : MonoBehaviour
 				tmpNode.parent = null;
 			}
 			ret.Reverse();
-			if (ret.Count == 0)
-			{
-				Debug.Log("aaa");
-			}
+
 			if (ret.Count > 0 && ret[ret.Count - 1] != end)
 			{
 				ret = null;
