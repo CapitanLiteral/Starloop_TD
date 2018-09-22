@@ -116,6 +116,7 @@ public class PoolManager : MonoBehaviour
 					if (prefabs[i].type.ToString() == objectType)
 					{
 						GameObject pooledObject = Instantiate(prefabs[i].objectPrefab) as GameObject;
+						pooledObject.name = prefabs[i].objectPrefab.name;
 						return pooledObject;
 					}					
 				}				

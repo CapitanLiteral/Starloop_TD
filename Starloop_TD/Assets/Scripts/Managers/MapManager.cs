@@ -163,7 +163,26 @@ public class MapManager : MonoBehaviour {
 
 	}
 
+	private void OnDrawGizmosSelected()
+	{
+		if (TileMap != null)
+		{
+			foreach (var item in TileMap)
+			{
+				if (item.Walkable)
+				{
+					Gizmos.color = new Color(0, 1, 0, 0.5f);
+					Gizmos.DrawCube(MapToWorldPosition(item.Position), Vector3.one * 2.1f);
+				}
+				else
+				{
+					Gizmos.color = new Color(1, 0, 0, 0.5f);
+					Gizmos.DrawCube(MapToWorldPosition(item.Position), Vector3.one * 2.1f);
+				}
+			}
 
+		}
+	}
 
 }
 

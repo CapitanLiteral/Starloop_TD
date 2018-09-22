@@ -28,6 +28,7 @@ public class BFS : MonoBehaviour
 
 		List<Vector3> ret = new List<Vector3>();
 
+		//Exploring nodes
 		if (start != end)
 		{
 			Tile actualNode = startNode;
@@ -56,40 +57,41 @@ public class BFS : MonoBehaviour
 				tmpNode.parent = null;
 			}
 			ret.Reverse();
-
-			// Delete useless nodes
-			if (ret.Count > 1)
-			{
-				Vector3 dir = Vector3.zero;// ret[1] - ret[0];
-				for (int i = 0; i < ret.Count; i++)
-				{
-					if (ret[i] != end)
-					{
-
-						Vector3 tmpDir = ret[i + 1] - ret[i];
-						if (tmpDir == dir)
-						{
-							//don't keep the node
-							ret.RemoveAt(i--);
-						}
-						dir = tmpDir;
-					}
-				}
-			}
-
 			if (ret.Count == 0)
 			{
-				Debug.LogError("Error BFS");
+				Debug.Log("aaa");
 			}
-
-			if (ret[ret.Count - 1] != end)
+			if (ret.Count > 0 && ret[ret.Count - 1] != end)
 			{
 				ret = null;
 			}
+			else
+			{
+				// Delete useless nodes
+				if (ret.Count > 1)
+				{
+					Vector3 dir = Vector3.zero;// ret[1] - ret[0];
+					for (int i = 0; i < ret.Count; i++)
+					{
+						if (ret[i] != end)
+						{							
+							Vector3 tmpDir = ret[i + 1] - ret[i];
+							
+							if (tmpDir == dir)
+							{
+								//don't keep the node
+								ret.RemoveAt(i--);
+							}
+							dir = tmpDir;
+						}
+					}
+				}
+
+			}			
 		}
 
 		time = (Time.realtimeSinceStartup - time) * 1000.0f;
-		Debug.Log("Path found in " + time + "ms");
+		//Debug.Log("Path found in " + time + "ms");
 		return ret;
 	}
 

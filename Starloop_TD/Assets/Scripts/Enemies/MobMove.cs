@@ -5,7 +5,7 @@ using UnityEngine;
 public class MobMove : MonoBehaviour
 {
 	[HideInInspector]
-	public List<Vector3> Path;
+	List<Vector3> Path;
 
 	MapManager Map;
 	PoolManager Pool;
@@ -13,8 +13,8 @@ public class MobMove : MonoBehaviour
 	[SerializeField]
 	float speed = 10f;
 
-	Vector3 target;
-	int pathIndex = 0;
+	public Vector3 target;
+	public int pathIndex = 0;
 
 	public bool active = false;
 
@@ -58,6 +58,31 @@ public class MobMove : MonoBehaviour
 	{
 		Path = path;
 		pathIndex = 0;
-		target = Path[pathIndex];
+		if (path.Count == 0)
+		{
+			Debug.Log("asdasdasdas");
+		}
+		if (!(pathIndex +1 >= Path.Count))
+		{
+			target = Path[pathIndex];
+		}
+		
+	}
+
+	private void OnDrawGizmos()
+	{
+		//if (Path != null)
+		//{
+		//	foreach (var item in Path)
+		//	{
+		//		Gizmos.color = Color.red;
+		//		Gizmos.DrawCube(item, new Vector3(0.5f, 4, 0.5f));
+		//	}
+		//}
+		if (Path.Count == 0)
+		{
+			Gizmos.color = Color.red;
+			Gizmos.DrawCube(transform.position, new Vector3(1, 4, 1f));
+		}
 	}
 }

@@ -45,15 +45,24 @@ public class PlayerManager : MonoBehaviour {
 		Vector2 map = Map.WorldToMapPosition(position);
 		if (!Map.TileMap[(int)map.x, (int)map.y].HasTurret && (type == PoolManager.PrefabType.TURRET_CANNON 
 																|| type == PoolManager.PrefabType.TURRET_LASER))
-		{		
-			GameObject tmp = Pool.GetObjectByType(type);
-			tmp.transform.parent = transform;
-			Vector3 world = Map.MapToWorldPosition(map);
-			tmp.transform.position = world;
+		{
 			Map.TileMap[(int)map.x, (int)map.y].HasTurret = true;
 			Map.TileMap[(int)map.x, (int)map.y].Walkable = false;
-			Spawner.RecalculatePath();
-			return tmp;
+			if (Spawner.RecalculatePath())
+			{
+				GameObject tmp = Pool.GetObjectByType(type);
+				tmp.transform.parent = transform;
+				Vector3 world = Map.MapToWorldPosition(map);
+				tmp.transform.position = world;
+				
+
+				return tmp;
+			}
+			else
+			{
+				Map.TileMap[(int)map.x, (int)map.y].HasTurret = false;
+				Map.TileMap[(int)map.x, (int)map.y].Walkable = true;
+			}
 		}
 
 		return null;
