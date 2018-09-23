@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Mobile : MonoBehaviour
 {
@@ -12,7 +13,14 @@ public class Mobile : MonoBehaviour
 
 	[SerializeField]
 	float speed = 10f;
+	[SerializeField]
+	float StartHealth = 100;
 
+	float health;
+
+	[Header("UnityStuff")]
+	public Image healthBar;
+	
 	public Vector3 target;
 	public int pathIndex = 0;
 
@@ -23,6 +31,8 @@ public class Mobile : MonoBehaviour
 	{
 		Map = FindObjectOfType<MapManager>();
 		Pool = FindObjectOfType<PoolManager>();
+
+		health = StartHealth;
 	}
 	
 	// Update is called once per frame
@@ -35,8 +45,12 @@ public class Mobile : MonoBehaviour
 
 			if (Vector3.Distance(target, transform.position) <= 0.2f)
 			{
-				GetNextWaypoint();
+				GetNextWaypoint();				
 			}
+		}
+		if (health <= 0)
+		{
+			active = false;
 		}
 	}
 
@@ -64,5 +78,11 @@ public class Mobile : MonoBehaviour
 			target = Path[pathIndex];
 		}
 		
+	}
+
+	public void TakeDamage(float amount)
+	{
+		health -= amount;
+		healthBar.fillAmount = health / StartHealth;
 	}
 }
