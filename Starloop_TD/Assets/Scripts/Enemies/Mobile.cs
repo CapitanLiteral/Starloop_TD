@@ -45,7 +45,7 @@ public class Mobile : MonoBehaviour
 
 			if (Vector3.Distance(target, transform.position) <= 0.2f)
 			{
-				GetNextWaypoint();				
+				GetNextWaypoint();
 			}
 		}
 		if (health <= 0)
