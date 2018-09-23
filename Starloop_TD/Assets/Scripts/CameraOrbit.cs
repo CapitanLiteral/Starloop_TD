@@ -30,6 +30,7 @@ public class CameraOrbit : MonoBehaviour
 	{
 		_XForm_Camera = transform;
 		_XForm_Parent = transform.parent;
+		DefaultCameraPosition();
 	}	
 	
 	void LateUpdate ()
@@ -37,21 +38,18 @@ public class CameraOrbit : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.LeftAlt))
 			CameraDisabled = !CameraDisabled;
 
-		if (Input.GetKeyDown(KeyCode.A) && firstButtonPressed)
+		// Reset Camera to default possition when R is pressed 2 times in half second.
+		if (Input.GetKeyDown(KeyCode.R) && firstButtonPressed)
 		{
 			if (Time.time - timeOfFirstButton < 0.5f)
 			{
-				Debug.Log("DoubleClicked");
-			}
-			else
-			{
-				Debug.Log("Too late");
+				DefaultCameraPosition();
 			}
 
 			reset = true;
 		}
 
-		if (Input.GetKeyDown(KeyCode.A) && !firstButtonPressed)
+		if (Input.GetKeyDown(KeyCode.R) && !firstButtonPressed)
 		{
 			firstButtonPressed = true;
 			timeOfFirstButton = Time.time;
@@ -63,6 +61,8 @@ public class CameraOrbit : MonoBehaviour
 			reset = false;
 		}
 
+
+		//If camera is enabled rotate with mouse.
 		if (!CameraDisabled)
 		{
 			if (Input.GetAxis("Mouse X") != 0 ||Input.GetAxis("Mouse Y") != 0)
@@ -71,7 +71,7 @@ public class CameraOrbit : MonoBehaviour
 				LocalRotation.y -= Input.GetAxis("Mouse Y") * MouseSensitivity;
 
 				//Clamp rotation to horizon and not flip at the top
-				LocalRotation.y = Mathf.Clamp(LocalRotation.y, 0f, 90f);
+				LocalRotation.y = Mathf.Clamp(LocalRotation.y, 10f, 90f);
 
 
 			}
@@ -90,6 +90,8 @@ public class CameraOrbit : MonoBehaviour
 			}
 		}
 
+		
+
 		//Camera transformations;
 		Quaternion QT = Quaternion.Euler(LocalRotation.y, LocalRotation.x, 0);
 		_XForm_Parent.rotation = Quaternion.Lerp(_XForm_Parent.rotation, QT, Time.deltaTime * OrbitDampening);
@@ -98,14 +100,13 @@ public class CameraOrbit : MonoBehaviour
 		{
 			_XForm_Camera.localPosition = new Vector3(0f, 0f, Mathf.Lerp(_XForm_Camera.localPosition.z, CameraDistance * -1f, Time.deltaTime * ScrollDampening));
 		}
-
+		
 	}
 
 	void DefaultCameraPosition()
 	{
-		Quaternion QT = Quaternion.Euler(0, 45f, 0);
-		_XForm_Parent.rotation = QT;
-		_XForm_Camera.localPosition = new Vector3(0f, 0f, -10f);
-
+		LocalRotation.y = 45f;
+		LocalRotation.x = 0f;
+		CameraDistance = 10f;
 	}
 }
