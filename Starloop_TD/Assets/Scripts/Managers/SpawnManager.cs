@@ -77,28 +77,46 @@ public class SpawnManager : MonoBehaviour
 
 	IEnumerator SpawnWave()
 	{
-		//yield return new WaitForSeconds(5f);
-		//for (int i = 0; i < Waves; ++i)
-		//{
-		//	for (int j = 0; j < 5; j++)
-		//	{
-		//		MobMove mob = SpawnEnemyNormal();
-		//		activeEnemies.Add(mob);
-		//		mob.active = true;
-		//
-		//		yield return new WaitForSeconds(0.5f);
-		//	}
-		//	yield return new WaitForSeconds(5f);
-		//}
-		while (true)
+		yield return new WaitForSeconds(5f);
+		for (int i = 0; i < Waves; ++i)
 		{
-			Mobile mob = SpawnEnemyNormal();
-			mob.transform.parent = containerObject.transform;
-			activeEnemies.Add(mob);
-			mob.active = true;
-			yield return new WaitForSeconds(0.5f);
-		}
+			if (i < 2)
+			{
+				for (int j = 0; j < 5; j++)
+				{
+					Mobile mob = SpawnEnemyNormal();
+					activeEnemies.Add(mob);
+					mob.active = true;
 
+					yield return new WaitForSeconds(0.5f);
+				}
+
+			}
+			else if(i < 4)
+			{
+				for (int j = 0; j < 5; j++)
+				{
+					Mobile mob = SpawnEnemySwift();
+					activeEnemies.Add(mob);
+					mob.active = true;
+
+					yield return new WaitForSeconds(0.5f);
+				}
+
+			}
+			else if(i < 6)
+			{
+				for (int j = 0; j < 5; j++)
+				{
+					Mobile mob = SpawnEnemyHeavy();
+					activeEnemies.Add(mob);
+					mob.active = true;
+
+					yield return new WaitForSeconds(0.5f);
+				}
+			}
+			yield return new WaitForSeconds(5f);
+		}
 	}
 
 	Mobile SpawnEnemyNormal()
@@ -112,6 +130,29 @@ public class SpawnManager : MonoBehaviour
 
 		return ret;
 	}
+	Mobile SpawnEnemySwift()
+	{
+		GameObject tmp = Pool.GetObjectByType(PoolManager.PrefabType.ENEMY_FAST);
+		tmp.transform.parent = transform;
+		tmp.transform.position = transform.position;
+
+		Mobile ret = tmp.GetComponent<Mobile>();
+		ret.SetPath(Path);
+
+		return ret;
+	}
+	Mobile SpawnEnemyHeavy()
+	{
+		GameObject tmp = Pool.GetObjectByType(PoolManager.PrefabType.ENEMY_HEAVY);
+		tmp.transform.parent = transform;
+		tmp.transform.position = transform.position;
+
+		Mobile ret = tmp.GetComponent<Mobile>();
+		ret.SetPath(Path);
+
+		return ret;
+	}
+
 
 	public bool RecalculatePath()
 	{
