@@ -21,6 +21,13 @@ public class SpawnManager : MonoBehaviour
 
 	List<Mobile> activeEnemies;
 
+	GameObject containerObject;
+
+	private void Awake()
+	{
+		containerObject = new GameObject("Enemies");
+	}
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -86,6 +93,7 @@ public class SpawnManager : MonoBehaviour
 		while (true)
 		{
 			Mobile mob = SpawnEnemyNormal();
+			mob.transform.parent = containerObject.transform;
 			activeEnemies.Add(mob);
 			mob.active = true;
 			yield return new WaitForSeconds(0.5f);

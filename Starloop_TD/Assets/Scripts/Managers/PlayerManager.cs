@@ -8,6 +8,13 @@ public class PlayerManager : MonoBehaviour {
 	MapManager Map;
 	SpawnManager Spawner;
 
+	GameObject ContainerObject;
+
+	private void Awake()
+	{
+		ContainerObject = new GameObject("Turrets");
+	}
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -25,7 +32,12 @@ public class PlayerManager : MonoBehaviour {
 			RaycastHit hit;
 			if (Physics.Raycast(ray, out hit))
 			{
-				SpawnTurret(hit.point, PoolManager.PrefabType.TURRET_CANNON);
+				GameObject turret = SpawnTurret(hit.point, PoolManager.PrefabType.TURRET_CANNON);
+				if (turret != null)
+					turret.transform.parent = ContainerObject.transform;
+
+
+
 			}
 		}
 		if (Input.GetKeyDown(KeyCode.Mouse1))
@@ -34,7 +46,9 @@ public class PlayerManager : MonoBehaviour {
 			RaycastHit hit;
 			if (Physics.Raycast(ray, out hit))
 			{
-				SpawnTurret(hit.point, PoolManager.PrefabType.TURRET_LASER);
+				GameObject turret = SpawnTurret(hit.point, PoolManager.PrefabType.TURRET_LASER);
+				if (turret != null)
+					turret.transform.parent = ContainerObject.transform;
 			}
 		}
 	}
