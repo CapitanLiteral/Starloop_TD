@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 224096238750501302}
   - component: {fileID: 222055383329775554}
   - component: {fileID: 114497376250747312}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: HealthBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 33089275136330624}
   - component: {fileID: 23079275849518700}
   - component: {fileID: 114297878282485952}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Normal
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -59,7 +59,7 @@ GameObject:
   - component: {fileID: 114147747263340104}
   - component: {fileID: 114612655766537888}
   - component: {fileID: 114939417630956010}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: EnemyLife
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -76,7 +76,7 @@ GameObject:
   - component: {fileID: 224547541495679628}
   - component: {fileID: 222656734915224664}
   - component: {fileID: 114392541891862208}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: HealthCurrent
   m_TagString: Untagged
   m_Icon: {fileID: 0}

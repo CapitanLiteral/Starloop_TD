@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 224808617362502286}
   - component: {fileID: 222562026379357400}
   - component: {fileID: 114417969884108262}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: HealthBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 33199208409232904}
   - component: {fileID: 23362094428040250}
   - component: {fileID: 114298128722994664}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Swift
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -57,7 +57,7 @@ GameObject:
   - component: {fileID: 224091960847386732}
   - component: {fileID: 222186386341238766}
   - component: {fileID: 114516021491809398}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: HealthCurrent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -76,7 +76,7 @@ GameObject:
   - component: {fileID: 114277470033982050}
   - component: {fileID: 114616880666079750}
   - component: {fileID: 114085002916128860}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: EnemyLife
   m_TagString: Untagged
   m_Icon: {fileID: 0}
