@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CannonTurret : MonoBehaviour
 {
@@ -11,6 +9,9 @@ public class CannonTurret : MonoBehaviour
 	float radius = 3;
 	[SerializeField]
 	float rotationSpeed = 10;
+	//Shoot bullets per second
+	[SerializeField]
+	float fireRate = 4;
 	GameObject target;
 
 	[SerializeField]
@@ -21,7 +22,6 @@ public class CannonTurret : MonoBehaviour
 		InvokeRepeating("GetTarget", 0, 0.2f);
 	}
 
-	// Update is called once per frame
 	void Update ()
 	{		
 		if (target == null)
@@ -30,7 +30,6 @@ public class CannonTurret : MonoBehaviour
 		Vector3 dir = target.transform.position - transform.position;
 		Quaternion lookRotation = Quaternion.LookRotation(dir);
 		Vector3 rotation = Quaternion.Lerp(partToRotate.rotation, lookRotation, Time.deltaTime * rotationSpeed).eulerAngles;
-		//Vector3 rotation = lookRotation.eulerAngles;
 		partToRotate.rotation = Quaternion.Euler(0, rotation.y, 0);
 	}
 
