@@ -77,7 +77,7 @@ public class SpawnManager : MonoBehaviour
 
 	IEnumerator SpawnWave()
 	{
-		yield return new WaitForSeconds(5f);
+		//yield return new WaitForSeconds(5f);
 		for (int i = 0; i < Waves; ++i)
 		{
 			if (i < 2)

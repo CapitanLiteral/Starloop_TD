@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class CannonTurret : MonoBehaviour
 {
@@ -13,24 +15,33 @@ public class CannonTurret : MonoBehaviour
 	[SerializeField]
 	float fireRate = 4;
 	GameObject target;
+	[SerializeField]
+	Transform bulletOut;
 
 	[SerializeField]
 	Transform partToRotate;
 
+	PoolManager pool;
+
 	void Start()
 	{
 		InvokeRepeating("GetTarget", 0, 0.2f);
+		pool = FindObjectOfType<PoolManager>();
 	}
 
-	void Update ()
-	{		
+	void Update()
+	{
 		if (target == null)
 			return;
+
 
 		Vector3 dir = target.transform.position - transform.position;
 		Quaternion lookRotation = Quaternion.LookRotation(dir);
 		Vector3 rotation = Quaternion.Lerp(partToRotate.rotation, lookRotation, Time.deltaTime * rotationSpeed).eulerAngles;
 		partToRotate.rotation = Quaternion.Euler(0, rotation.y, 0);
+
+
+
 	}
 
 	void GetTarget()
@@ -53,7 +64,7 @@ public class CannonTurret : MonoBehaviour
 			}
 		}
 
-		if (nearestEnemy != null)
+		if (nearestEnemy != null && nearestEnemy != target)
 		{
 			target = nearestEnemy;
 		}
@@ -61,11 +72,26 @@ public class CannonTurret : MonoBehaviour
 		{
 			target = null;
 		}
+		if(target!=null)
+		SpawnBullet();
+	}
+
+	void SpawnBullet()
+	{
+		GameObject bulletObject = pool.GetObjectByType(PoolManager.PrefabType.BULLET);
+		Bullet bullet = bulletObject.GetComponent<Bullet>();
+		bulletObject.transform.position = bulletOut.position;
+		Vector3 direction = target.transform.position - transform.position;
+
+		bullet.direction = direction;
 	}
 
 	private void OnDrawGizmos()
 	{
 		Gizmos.DrawWireSphere(transform.position, radius);
-		Gizmos.DrawSphere(target.transform.position, 1.5f);
+		if (target != null)
+		{
+			Gizmos.DrawSphere(target.transform.position, 1.5f);
+		}
 	}
 }

@@ -31,28 +31,28 @@ public class BFS : MonoBehaviour
 		//Exploring nodes
 		if (start != end)
 		{
-			Tile actualNode = startNode;
+			Tile currentNode = startNode;
 			OpenList.Enqueue(startNode);
-			while ((actualNode.Position != endNode.Position) && OpenList.Any())
+			while ((currentNode.Position != endNode.Position) && OpenList.Any())
 			{
-				actualNode = OpenList.Dequeue();
+				currentNode = OpenList.Dequeue();
 				//Add neighbors to the open list
-				List<Tile> neighbors = GetNeighborNodes(actualNode);
+				List<Tile> neighbors = GetNeighborNodes(currentNode);
 				foreach (var neighbor in neighbors)
 				{
-					neighbor.parent = actualNode;
+					neighbor.parent = currentNode;
 					OpenList.Enqueue(neighbor);
 				}
 
-				ExploredNodes.Add(actualNode);
+				ExploredNodes.Add(currentNode);
 			} 
 
 			//Filling path
-			while (actualNode.Position != startNode.Position)
+			while (currentNode.Position != startNode.Position)
 			{
-				ret.Add(Map.MapToWorldPosition(actualNode.Position));
-				Tile tmpNode = actualNode;
-				actualNode = actualNode.parent;
+				ret.Add(Map.MapToWorldPosition(currentNode.Position));
+				Tile tmpNode = currentNode;
+				currentNode = currentNode.parent;
 				//Resetting parent status for the next path finding
 				tmpNode.parent = null;
 			}

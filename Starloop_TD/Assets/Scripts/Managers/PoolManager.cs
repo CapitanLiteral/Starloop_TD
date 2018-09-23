@@ -23,7 +23,8 @@ public class PoolManager : MonoBehaviour
 		ENEMY_FAST,
 		ENEMY_HEAVY,
 		TURRET_LASER,
-		TURRET_CANNON
+		TURRET_CANNON,
+		BULLET
 	}
 
 	public static PoolManager instance = null;
@@ -62,8 +63,9 @@ public class PoolManager : MonoBehaviour
 	}
 
 	// Pools the object specified.  Will not be pooled if there is no prefab of that type.
-	public void PoolObject(GameObject obj)
+	public void PoolObject(GameObject obj, float seconds = 0)
 	{
+		
 		for (int i = 0; i < prefabs.Length; i++)
 		{
 			if (prefabs[i].objectPrefab.name == obj.name)

@@ -16,6 +16,8 @@ public class Mobile : MonoBehaviour
 	[SerializeField]
 	float StartHealth = 100;
 
+
+
 	float health;
 
 	[Header("UnityStuff")]
@@ -41,6 +43,7 @@ public class Mobile : MonoBehaviour
 		if (Path != null)
 		{
 			Vector3 dir = target - transform.position;
+			
 			transform.Translate(dir.normalized * speed * Time.deltaTime, Space.World);
 
 			if (Vector3.Distance(target, transform.position) <= 0.2f)
@@ -84,5 +87,15 @@ public class Mobile : MonoBehaviour
 	{
 		health -= amount;
 		healthBar.fillAmount = health / StartHealth;
+	}
+
+	private void OnTriggerEnter(Collider other)
+	{
+		GameObject go = other.gameObject;
+		if (go.tag == "Bullet")
+		{
+			Bullet bullet = go.GetComponent<Bullet>();
+			TakeDamage(bullet.damage);
+		}
 	}
 }
