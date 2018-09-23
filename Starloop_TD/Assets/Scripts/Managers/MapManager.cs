@@ -184,5 +184,10 @@ public class MapManager : MonoBehaviour {
 		}
 	}
 
+	public Vector2 GetWorldSize()
+	{
+		return new Vector2(mapSize.x * tileSize.x + (mapSize.x - 1) * tileOffset, mapSize.y * tileSize.z + (mapSize.y - 1) * tileOffset);
+	}
+
 }
 
