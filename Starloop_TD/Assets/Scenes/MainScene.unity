@@ -498,9 +498,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dffa32d60e50674f93bed8facdd6a43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Map: {fileID: 0}
-  PanningSensitivity: 4
-  PanningDampening: 2
+  Map: {fileID: 1056456673}
+  PanningSensitivity: 20
 --- !u!4 &1312576284
 Transform:
   m_ObjectHideFlags: 0
@@ -665,8 +664,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70dc722e8b15b4d40aa466e6748aa5a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CameraDistance: 20
   MouseSensitivity: 4
   ScrollSensitivity: 2
   OrbitDampening: 10
   ScrollDampening: 6
-  CameraDisabled: 0
+  CameraDisabled: 1

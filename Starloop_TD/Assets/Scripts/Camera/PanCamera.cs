@@ -9,8 +9,6 @@ public class PanCamera : MonoBehaviour
 	Vector2 MaxDistance;
 	[SerializeField]
 	float PanningSensitivity = 4f;
-	[SerializeField]
-	float PanningDampening = 2f;
 
 	private void Start()
 	{
@@ -24,8 +22,8 @@ public class PanCamera : MonoBehaviour
 	// Update is called once per frame
 	void LateUpdate ()
 	{
-		float xAxisValue = Input.GetAxis("Horizontal");
-		float zAxisValue = Input.GetAxis("Vertical");
+		float xAxisValue = Input.GetAxis("Horizontal") * PanningSensitivity * Time.deltaTime;
+		float zAxisValue = Input.GetAxis("Vertical") * PanningSensitivity * Time.deltaTime;
 
 		transform.Translate(new Vector3(xAxisValue, 0.0f, zAxisValue));
 
