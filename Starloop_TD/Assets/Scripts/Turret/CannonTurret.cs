@@ -21,6 +21,8 @@ public class CannonTurret : MonoBehaviour
 	[SerializeField]
 	Transform partToRotate;
 
+	float counter = 0;
+
 	PoolManager pool;
 
 	void Start()
@@ -31,15 +33,25 @@ public class CannonTurret : MonoBehaviour
 
 	void Update()
 	{
+		counter += Time.deltaTime;
 		if (target == null)
 			return;
 
 
 		Vector3 dir = target.transform.position - transform.position;
+
 		Quaternion lookRotation = Quaternion.LookRotation(dir);
 		Vector3 rotation = Quaternion.Lerp(partToRotate.rotation, lookRotation, Time.deltaTime * rotationSpeed).eulerAngles;
 		partToRotate.rotation = Quaternion.Euler(0, rotation.y, 0);
 
+
+
+		if (counter >= 1/fireRate)
+		{
+			if (target != null)
+				SpawnBullet();
+			counter = 0;
+		}
 
 
 	}
@@ -72,8 +84,7 @@ public class CannonTurret : MonoBehaviour
 		{
 			target = null;
 		}
-		if(target!=null)
-		SpawnBullet();
+
 	}
 
 	void SpawnBullet()

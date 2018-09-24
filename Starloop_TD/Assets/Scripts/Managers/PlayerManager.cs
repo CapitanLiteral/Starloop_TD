@@ -30,7 +30,7 @@ public class PlayerManager : MonoBehaviour {
 		{
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			RaycastHit hit;
-			if (Physics.Raycast(ray, out hit))
+			if (Physics.Raycast(ray, out hit, LayerMask.GetMask("Ground")))
 			{
 				GameObject turret = SpawnTurret(hit.point, PoolManager.PrefabType.TURRET_CANNON);
 				if (turret != null)

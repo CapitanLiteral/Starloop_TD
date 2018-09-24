@@ -310,7 +310,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 20
   radius: 3
-  rotationSpeed: 10
-  fireRate: 4
+  rotationSpeed: 20
+  fireRate: 10
   bulletOut: {fileID: 4502723585366354}
   partToRotate: {fileID: 4170229963868912}

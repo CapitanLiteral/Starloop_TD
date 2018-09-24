@@ -18,7 +18,7 @@ public class Bullet : MonoBehaviour
 	void Start ()
 	{
 		pool = FindObjectOfType<PoolManager>();
-		StartCoroutine(PoolBullet());
+		Invoke("PoolBullet", lifeTime);
 	}
 
 	void Update()
@@ -28,9 +28,9 @@ public class Bullet : MonoBehaviour
 										direction.z * speed * Time.deltaTime);
 	}
 
-	IEnumerator	PoolBullet()
+	public void PoolBullet()
 	{
-		yield return new WaitForSeconds(lifeTime);
 		pool.PoolObject(gameObject);
 	}
+
 }

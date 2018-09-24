@@ -15,12 +15,10 @@ public class Mobile : MonoBehaviour
 	float speed = 10f;
 	[SerializeField]
 	float StartHealth = 100;
-
-
-
+	
 	float health;
 
-	[Header("UnityStuff")]
+	[Header("UI")]
 	public Image healthBar;
 	
 	public Vector3 target;
@@ -46,7 +44,7 @@ public class Mobile : MonoBehaviour
 			
 			transform.Translate(dir.normalized * speed * Time.deltaTime, Space.World);
 
-			if (Vector3.Distance(target, transform.position) <= 0.2f)
+			if (Vector3.Distance(target, transform.position) <= 0.5f)
 			{
 				GetNextWaypoint();
 			}
@@ -96,6 +94,7 @@ public class Mobile : MonoBehaviour
 		{
 			Bullet bullet = go.GetComponent<Bullet>();
 			TakeDamage(bullet.damage);
+			bullet.PoolBullet();
 		}
 	}
 }

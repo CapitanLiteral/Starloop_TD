@@ -27,7 +27,7 @@ public class PoolManager : MonoBehaviour
 		BULLET
 	}
 
-	public static PoolManager instance = null;
+	private static PoolManager instance = null;
 
 	//Array that stores prefabs to be loaded on awake
 	public Prefab[] prefabs;
@@ -36,6 +36,14 @@ public class PoolManager : MonoBehaviour
 	public Dictionary<PrefabType, List<GameObject>> pooledObjects;
 
 	GameObject containerObject;
+
+	public static PoolManager Instance
+	{
+		get
+		{
+			return instance;
+		}
+	}
 
 	void Awake()
 	{
@@ -63,9 +71,8 @@ public class PoolManager : MonoBehaviour
 	}
 
 	// Pools the object specified.  Will not be pooled if there is no prefab of that type.
-	public void PoolObject(GameObject obj, float seconds = 0)
-	{
-		
+	public void PoolObject(GameObject obj)
+	{	
 		for (int i = 0; i < prefabs.Length; i++)
 		{
 			if (prefabs[i].objectPrefab.name == obj.name)
