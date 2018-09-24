@@ -26,6 +26,8 @@ public class Mobile : MonoBehaviour
 
 	public bool active = false;
 
+	public Vector3 velocity = Vector3.zero;
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -41,8 +43,8 @@ public class Mobile : MonoBehaviour
 		if (Path != null)
 		{
 			Vector3 dir = target - transform.position;
-			
-			transform.Translate(dir.normalized * speed * Time.deltaTime, Space.World);
+			velocity = dir.normalized * speed;
+			transform.Translate(velocity * Time.deltaTime, Space.World);
 
 			if (Vector3.Distance(target, transform.position) <= 0.5f)
 			{

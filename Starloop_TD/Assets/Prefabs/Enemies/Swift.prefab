@@ -37,6 +37,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4877566079811956}
   - component: {fileID: 114679589579836578}
+  - component: {fileID: 54484575145235824}
   m_Layer: 11
   m_Name: Swift
   m_TagString: Untagged
@@ -72,7 +73,6 @@ GameObject:
   - component: {fileID: 64635454372590378}
   - component: {fileID: 33687379569351388}
   - component: {fileID: 23828316595726296}
-  - component: {fileID: 54073597060728074}
   m_Layer: 11
   m_Name: SwiftMesh
   m_TagString: Enemy
@@ -166,12 +166,12 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1676984729711556}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!54 &54073597060728074
+--- !u!54 &54484575145235824
 Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1676984729711556}
+  m_GameObject: {fileID: 1380603275563348}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
@@ -309,12 +309,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a33f27cb05efd0745b3c98f4e5a52e6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 15
+  speed: 10
   StartHealth: 50
   healthBar: {fileID: 114516021491809398}
   target: {x: 0, y: 0, z: 0}
   pathIndex: 0
   active: 0
+  velocity: {x: 0, y: 0, z: 0}
 --- !u!222 &222186386341238766
 CanvasRenderer:
   m_ObjectHideFlags: 1

@@ -37,8 +37,9 @@ public class CannonTurret : MonoBehaviour
 		if (target == null)
 			return;
 
+		Mobile mob = target.transform.parent.GetComponent<Mobile>();
 
-		Vector3 dir = target.transform.position - transform.position;
+		Vector3 dir = target.transform.position + (mob.velocity*Time.deltaTime) - transform.position;
 
 		Quaternion lookRotation = Quaternion.LookRotation(dir);
 		Vector3 rotation = Quaternion.Lerp(partToRotate.rotation, lookRotation, Time.deltaTime * rotationSpeed).eulerAngles;

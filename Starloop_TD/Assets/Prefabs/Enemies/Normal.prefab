@@ -180,7 +180,7 @@ Rigidbody:
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 1
+  m_CollisionDetection: 0
 --- !u!64 &64094073344986464
 MeshCollider:
   m_ObjectHideFlags: 1
@@ -206,12 +206,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a33f27cb05efd0745b3c98f4e5a52e6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 7
   StartHealth: 100
   healthBar: {fileID: 114392541891862208}
   target: {x: 0, y: 0, z: 0}
   pathIndex: 0
   active: 0
+  velocity: {x: 0, y: 0, z: 0}
 --- !u!114 &114147747263340104
 MonoBehaviour:
   m_ObjectHideFlags: 1
