@@ -16,6 +16,16 @@ public class SpawnManager : MonoBehaviour
 	[SerializeField]
 	int Waves = 5;
 
+	[SerializeField]
+	int startingMobs = 5;
+
+	[SerializeField]
+	float distance = 1.5f;
+
+	[SerializeField]
+	float waveMultiplier;
+	float waveEnemies  = 5;
+
 	List<Mobile> activeEnemies;
 
 	GameObject containerObject;
