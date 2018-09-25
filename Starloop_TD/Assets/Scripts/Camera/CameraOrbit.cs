@@ -38,37 +38,11 @@ public class CameraOrbit : MonoBehaviour
 	
 	void LateUpdate ()
 	{
-		if (Input.GetKeyDown(KeyCode.LeftAlt))
-			CameraDisabled = !CameraDisabled;
-
-		// Reset Camera to default possition when R is pressed 2 times in half second.
-		if (Input.GetKeyDown(KeyCode.R) && firstButtonPressed)
+		//if (Input.GetKeyDown(KeyCode.LeftAlt))
+		//	CameraDisabled = !CameraDisabled;
+		if (Input.GetKey(KeyCode.LeftAlt))
 		{
-			if (Time.time - timeOfFirstButton < 1.0f)
-			{
-				DefaultCameraPosition();
-			}
-
-			reset = true;
-		}
-
-		if (Input.GetKeyDown(KeyCode.R) && !firstButtonPressed)
-		{
-			firstButtonPressed = true;
-			timeOfFirstButton = Time.time;
-		}
-
-		if (reset)
-		{
-			firstButtonPressed = false;
-			reset = false;
-		}
-
-
-		//If camera is enabled rotate with mouse.
-		if (!CameraDisabled)
-		{
-			if (Input.GetAxis("Mouse X") != 0 ||Input.GetAxis("Mouse Y") != 0)
+			if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0)
 			{
 				LocalRotation.x += Input.GetAxis("Mouse X") * MouseSensitivity;
 				LocalRotation.y -= Input.GetAxis("Mouse Y") * MouseSensitivity;
@@ -93,6 +67,9 @@ public class CameraOrbit : MonoBehaviour
 			}
 		}
 
+		ResetCamera();
+
+
 		
 
 		//Camera transformations;
@@ -114,5 +91,31 @@ public class CameraOrbit : MonoBehaviour
 		LocalRotation.x = 0f;
 		CameraDistance = 20f;
 		_xForm_Panner.position = Vector3.zero;
+	}
+
+	void ResetCamera()
+	{
+		// Reset Camera to default possition when R is pressed 2 times in half second.
+		if (Input.GetKeyDown(KeyCode.R) && firstButtonPressed)
+		{
+			if (Time.time - timeOfFirstButton < 1.0f)
+			{
+				DefaultCameraPosition();
+			}
+
+			reset = true;
+		}
+
+		if (Input.GetKeyDown(KeyCode.R) && !firstButtonPressed)
+		{
+			firstButtonPressed = true;
+			timeOfFirstButton = Time.time;
+		}
+
+		if (reset)
+		{
+			firstButtonPressed = false;
+			reset = false;
+		}
 	}
 }
