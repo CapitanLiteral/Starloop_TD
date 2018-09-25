@@ -12,12 +12,10 @@ public class Bullet : MonoBehaviour
 
 	public Vector3 direction = Vector3.zero;
 
-	PoolManager pool;
 
 	// Use this for initialization
 	void Start ()
 	{
-		pool = FindObjectOfType<PoolManager>();
 		Invoke("PoolBullet", lifeTime);
 	}
 
@@ -30,7 +28,7 @@ public class Bullet : MonoBehaviour
 
 	public void PoolBullet()
 	{
-		pool.PoolObject(gameObject);
+		PoolManager.Instance.PoolObject(gameObject);
 	}
 
 }

@@ -8,9 +8,6 @@ public class Mobile : MonoBehaviour
 	[HideInInspector]
 	List<Vector3> Path;
 
-	MapManager Map;
-	PoolManager Pool;
-
 	[SerializeField]
 	float speed = 10f;
 	[SerializeField]
@@ -31,8 +28,6 @@ public class Mobile : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		Map = FindObjectOfType<MapManager>();
-		Pool = FindObjectOfType<PoolManager>();
 
 		health = StartHealth;
 	}

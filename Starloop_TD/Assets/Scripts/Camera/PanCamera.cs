@@ -4,17 +4,16 @@ using UnityEngine;
 
 public class PanCamera : MonoBehaviour
 {
-	[SerializeField]
-	MapManager Map;
+
 	Vector2 MaxDistance;
 	[SerializeField]
 	float PanningSensitivity = 4f;
 
 	private void Start()
 	{
-		if (Map != null)
+		if (GameManager.Instance.Map != null)
 		{
-			MaxDistance = Map.GetWorldSize() / 2;
+			MaxDistance = GameManager.Instance.Map.GetWorldSize() / 2;
 		}
 		
 	}

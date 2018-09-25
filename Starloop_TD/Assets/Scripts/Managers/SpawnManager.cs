@@ -7,9 +7,6 @@ public class SpawnManager : MonoBehaviour
 	[SerializeField]
 	BFS Pathfinder;
 
-	MapManager Map;
-	PoolManager Pool;
-
 	GameObject Crystal;
 	List<Vector3> Path;
 
@@ -31,10 +28,8 @@ public class SpawnManager : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		Pool = FindObjectOfType<PoolManager>();
 		Pathfinder = FindObjectOfType<BFS>();
-		Map = FindObjectOfType<MapManager>();
-		Crystal = Map.crystal;
+		Crystal = GameManager.Instance.Map.crystal;
 
 		activeEnemies = new List<Mobile>();
 
@@ -57,7 +52,7 @@ public class SpawnManager : MonoBehaviour
 		{
 			if (!activeEnemies[i].active)
 			{
-				Pool.PoolObject(activeEnemies[i].gameObject);
+				PoolManager.Instance.PoolObject(activeEnemies[i].gameObject);
 				activeEnemies.RemoveAt(i);
 			}
 		}
@@ -121,7 +116,7 @@ public class SpawnManager : MonoBehaviour
 
 	Mobile SpawnEnemyNormal()
 	{
-		GameObject tmp = Pool.GetObjectByType(PoolManager.PrefabType.ENEMY_NORMAL);
+		GameObject tmp = PoolManager.Instance.GetObjectByType(PoolManager.PrefabType.ENEMY_NORMAL);
 		tmp.transform.parent = transform;
 		tmp.transform.position = transform.position;
 
@@ -132,7 +127,7 @@ public class SpawnManager : MonoBehaviour
 	}
 	Mobile SpawnEnemySwift()
 	{
-		GameObject tmp = Pool.GetObjectByType(PoolManager.PrefabType.ENEMY_FAST);
+		GameObject tmp = PoolManager.Instance.GetObjectByType(PoolManager.PrefabType.ENEMY_FAST);
 		tmp.transform.parent = transform;
 		tmp.transform.position = transform.position;
 
@@ -143,7 +138,7 @@ public class SpawnManager : MonoBehaviour
 	}
 	Mobile SpawnEnemyHeavy()
 	{
-		GameObject tmp = Pool.GetObjectByType(PoolManager.PrefabType.ENEMY_HEAVY);
+		GameObject tmp = PoolManager.Instance.GetObjectByType(PoolManager.PrefabType.ENEMY_HEAVY);
 		tmp.transform.parent = transform;
 		tmp.transform.position = transform.position;
 

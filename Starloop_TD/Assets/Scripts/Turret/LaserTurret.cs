@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CannonTurret : MonoBehaviour
+public class LaserTurret : MonoBehaviour
 {
 
 	[SerializeField]
@@ -13,10 +13,11 @@ public class CannonTurret : MonoBehaviour
 	float rotationSpeed = 10;
 	//Shoot bullets per second
 	[SerializeField]
-	float fireRate = 4;
+	float fireRate = 10;
 	GameObject target;
 	[SerializeField]
-	Transform bulletOut;
+	Transform firePoint;
+	LineRenderer laser;
 
 	[SerializeField]
 	Transform partToRotate;
@@ -25,33 +26,38 @@ public class CannonTurret : MonoBehaviour
 
 	void Start()
 	{
-		InvokeRepeating("GetTarget", 0, 0.2f);
+		InvokeRepeating("GetTarget", 0, 0.1f);
+		laser = GetComponent<LineRenderer>();
 	}
 
 	void Update()
 	{
 		counter += Time.deltaTime;
 		if (target == null)
+		{
+			if (laser.enabled)
+				laser.enabled = false;
 			return;
+		}
 
 		Mobile mob = target.transform.parent.GetComponent<Mobile>();
 
-		Vector3 dir = target.transform.position + (mob.velocity*Time.deltaTime) - transform.position;
+		Vector3 dir = target.transform.position - transform.position;
+		
+		//Rotate turret
+		//Quaternion lookRotation = Quaternion.LookRotation(dir);
+		//Vector3 rotation = Quaternion.Lerp(partToRotate.rotation, lookRotation, Time.deltaTime * rotationSpeed).eulerAngles;
+		//partToRotate.rotation = Quaternion.Euler(0, rotation.y, 0);
+		//partToRotate.rotation = lookRotation;
 
-		Quaternion lookRotation = Quaternion.LookRotation(dir);
-		Vector3 rotation = Quaternion.Lerp(partToRotate.rotation, lookRotation, Time.deltaTime * rotationSpeed).eulerAngles;
-		partToRotate.rotation = Quaternion.Euler(0, rotation.y, 0);
 
-
-
-		if (counter >= 1/fireRate)
+		if (counter >= 1 / fireRate)
 		{
 			if (target != null)
-				SpawnBullet();
+				mob.TakeDamage(damage);
 			counter = 0;
 		}
-
-
+		Laser();
 	}
 
 	void GetTarget()
@@ -74,7 +80,7 @@ public class CannonTurret : MonoBehaviour
 			}
 		}
 
-		if (nearestEnemy != null && nearestEnemy != target)
+		if (nearestEnemy != null)
 		{
 			target = nearestEnemy;
 		}
@@ -85,14 +91,13 @@ public class CannonTurret : MonoBehaviour
 
 	}
 
-	void SpawnBullet()
+	void Laser()
 	{
-		GameObject bulletObject = PoolManager.Instance.GetObjectByType(PoolManager.PrefabType.BULLET);
-		Bullet bullet = bulletObject.GetComponent<Bullet>();
-		bulletObject.transform.position = bulletOut.position;
-		Vector3 direction = target.transform.position - transform.position;
+		if (!laser.enabled)
+			laser.enabled = true;
 
-		bullet.direction = direction;
+		laser.SetPosition(0, firePoint.position);
+		laser.SetPosition(1, target.transform.position);
 	}
 
 	private void OnDrawGizmos()

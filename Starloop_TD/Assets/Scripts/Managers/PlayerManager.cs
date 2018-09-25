@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerManager : MonoBehaviour {
-
-	PoolManager Pool;
-	MapManager Map;
+public class PlayerManager : MonoBehaviour
+{
 	SpawnManager Spawner;
 
 	GameObject ContainerObject;
@@ -18,8 +16,6 @@ public class PlayerManager : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
 	{
-		Pool = FindObjectOfType<PoolManager>();
-		Map = FindObjectOfType<MapManager>();
 		Spawner = FindObjectOfType<SpawnManager>();
 	}
 	
@@ -56,17 +52,18 @@ public class PlayerManager : MonoBehaviour {
 
 	GameObject SpawnTurret(Vector3 position, PoolManager.PrefabType type)
 	{
-		Vector2 map = Map.WorldToMapPosition(position);
-		if (!Map.TileMap[(int)map.x, (int)map.y].HasTurret && (type == PoolManager.PrefabType.TURRET_CANNON 
+		MapManager map = GameManager.Instance.Map;
+		Vector2 mapPosition = map.WorldToMapPosition(position);
+		if (!map.TileMap[(int)mapPosition.x, (int)mapPosition.y].HasTurret && (type == PoolManager.PrefabType.TURRET_CANNON 
 																|| type == PoolManager.PrefabType.TURRET_LASER))
 		{
-			Map.TileMap[(int)map.x, (int)map.y].HasTurret = true;
-			Map.TileMap[(int)map.x, (int)map.y].Walkable = false;
+			map.TileMap[(int)mapPosition.x, (int)mapPosition.y].HasTurret = true;
+			map.TileMap[(int)mapPosition.x, (int)mapPosition.y].Walkable = false;
 			if (Spawner.RecalculatePath())
 			{
-				GameObject tmp = Pool.GetObjectByType(type);
+				GameObject tmp = PoolManager.Instance.GetObjectByType(type);
 				tmp.transform.parent = transform;
-				Vector3 world = Map.MapToWorldPosition(map);
+				Vector3 world = map.MapToWorldPosition(mapPosition);
 				tmp.transform.position = world;
 				
 
@@ -74,8 +71,8 @@ public class PlayerManager : MonoBehaviour {
 			}
 			else
 			{
-				Map.TileMap[(int)map.x, (int)map.y].HasTurret = false;
-				Map.TileMap[(int)map.x, (int)map.y].Walkable = true;
+				map.TileMap[(int)mapPosition.x, (int)mapPosition.y].HasTurret = false;
+				map.TileMap[(int)mapPosition.x, (int)mapPosition.y].Walkable = true;
 			}
 		}
 

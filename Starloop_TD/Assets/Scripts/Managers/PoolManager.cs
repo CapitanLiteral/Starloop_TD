@@ -47,7 +47,17 @@ public class PoolManager : MonoBehaviour
 
 	void Awake()
 	{
-		instance = this;
+		//Check if instance already exists
+		if (Instance == null)
+			//if not, set instance to this
+			instance = this;
+		//If instance already exists and it's not this:
+		else if (Instance != this)
+			Destroy(gameObject);
+
+		//Sets this to not be destroyed when reloading scene
+		DontDestroyOnLoad(gameObject);
+
 		Initialize();
 	}
 
