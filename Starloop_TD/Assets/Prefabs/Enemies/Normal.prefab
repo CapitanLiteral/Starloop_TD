@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 54305956155439954}
   m_Layer: 11
   m_Name: Normal
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -72,7 +72,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4973974584856956}
-  - component: {fileID: 64094073344986464}
+  - component: {fileID: 64886931047837968}
   - component: {fileID: 33612302972522288}
   - component: {fileID: 23194290939813728}
   m_Layer: 11
@@ -181,7 +181,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!64 &64094073344986464
+--- !u!64 &64886931047837968
 MeshCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}

@@ -297,8 +297,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a33f27cb05efd0745b3c98f4e5a52e6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
-  StartHealth: 150
+  speed: 3
+  StartHealth: 300
   healthBar: {fileID: 114571729182617506}
   target: {x: 0, y: 0, z: 0}
   pathIndex: 0
