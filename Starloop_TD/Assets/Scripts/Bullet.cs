@@ -12,11 +12,16 @@ public class Bullet : MonoBehaviour
 
 	public Vector3 direction = Vector3.zero;
 
-
+	public static int bulletsActive = 0;
 	// Use this for initialization
-	void Start ()
+	void OnEnable ()
 	{
-		Invoke("PoolBullet", lifeTime);
+		//Invoke("PoolBullet", lifeTime);
+		bulletsActive++;
+	}
+	private void OnDisable()
+	{
+		bulletsActive--;
 	}
 
 	void Update()
@@ -24,11 +29,31 @@ public class Bullet : MonoBehaviour
 		gameObject.transform.Translate(direction.x * speed * Time.deltaTime, 
 										0,
 										direction.z * speed * Time.deltaTime);
+
+		Vector2 worldSize = GameManager.Instance.Map.GetWorldSize();
+
+		if (gameObject.transform.position.x > worldSize.x)
+		{
+			PoolBullet();
+		}
+		else if (gameObject.transform.position.x < -worldSize.x)
+		{
+			PoolBullet();
+		}
+		if (gameObject.transform.position.z > worldSize.y)
+		{
+			PoolBullet();
+		}
+		else if (gameObject.transform.position.z < -worldSize.y)
+		{
+			PoolBullet();
+		}
 	}
 
 	public void PoolBullet()
 	{
 		PoolManager.Instance.PoolObject(gameObject);
+		
 	}
 
 }

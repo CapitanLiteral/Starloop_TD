@@ -53,18 +53,20 @@ public class CameraOrbit : MonoBehaviour
 
 			}
 
-			//Scrolling
-			if (Input.GetAxis("Mouse ScrollWheel") != 0f)
-			{
-				float ScrollAmount = Input.GetAxis("Mouse ScrollWheel") * ScrollSensitivity;
+			
+		}
 
-				//Scroll slowing when you are closer to the map;
-				ScrollAmount *= (CameraDistance * 0.3f);
+		//Scrolling
+		if (Input.GetAxis("Mouse ScrollWheel") != 0f)
+		{
+			float ScrollAmount = Input.GetAxis("Mouse ScrollWheel") * ScrollSensitivity;
 
-				CameraDistance += ScrollAmount * -1f;
+			//Scroll slowing when you are closer to the map;
+			ScrollAmount *= (CameraDistance * 0.3f);
 
-				CameraDistance = Mathf.Clamp(CameraDistance, 1.5f, 100f);
-			}
+			CameraDistance += ScrollAmount * -1f;
+
+			CameraDistance = Mathf.Clamp(CameraDistance, 1.5f, 100f);
 		}
 
 		ResetCamera();

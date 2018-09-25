@@ -444,10 +444,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d82b4acc7557bd64cac9ef9dd4fdc750, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapSize: {x: 20, y: 10}
+  mapSize: {x: 20, y: 20}
   tileOffset: 0.2
   spawnerPosition: {x: 0, y: 0}
-  crystalPosition: {x: 19, y: 9}
+  crystalPosition: {x: 19, y: 19}
   spawnerPrefab: {fileID: 1351966857075262, guid: f979a92a3734b534b909e8be05387fd6,
     type: 2}
   crystalPrefab: {fileID: 1773017340204286, guid: 37bea426767f17f4483636884c8c14fd,

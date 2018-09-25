@@ -14,7 +14,7 @@ public class PoolManager : MonoBehaviour
 		public int amount;
 		public GameObject objectPrefab;
 	}
-	
+
 	//Type of accepted prefabs
 	public enum PrefabType
 	{
@@ -64,7 +64,7 @@ public class PoolManager : MonoBehaviour
 	void Initialize()
 	{
 		containerObject = new GameObject("PoolManager");
-		
+
 		pooledObjects = new Dictionary<PrefabType, List<GameObject>>();
 
 		for (int i = 0; i < prefabs.Length; i++)
@@ -82,7 +82,7 @@ public class PoolManager : MonoBehaviour
 
 	// Pools the object specified.  Will not be pooled if there is no prefab of that type.
 	public void PoolObject(GameObject obj)
-	{	
+	{
 		for (int i = 0; i < prefabs.Length; i++)
 		{
 			if (prefabs[i].objectPrefab.name == obj.name)
@@ -128,7 +128,7 @@ public class PoolManager : MonoBehaviour
 
 				return pooledObject;
 			}
-			else if(!onlyPooled)
+			else if (!onlyPooled)
 			{
 				for (int i = 0; i < prefabs.Length; i++)
 				{
@@ -137,15 +137,15 @@ public class PoolManager : MonoBehaviour
 						GameObject pooledObject = Instantiate(prefabs[i].objectPrefab) as GameObject;
 						pooledObject.name = prefabs[i].objectPrefab.name;
 						return pooledObject;
-					}					
-				}				
+					}
+				}
 			}
 			else
 			{
 				Debug.LogWarning("There is no pooled object of type " + objectType + "(check 'onlyPooled' parameter)", this); // idk if I should use 'this' as context...
 			}
-			
-			
+
+
 		}
 		else
 		{
@@ -154,5 +154,37 @@ public class PoolManager : MonoBehaviour
 
 
 		return null;
+	}
+
+	private void Update()
+	{
+		int disabled = 0;
+		int enabled = 0;
+
+		foreach (var item in pooledObjects[PrefabType.BULLET])
+		{
+			if (item.gameObject.activeSelf)
+				enabled++;
+			else
+				disabled++;
+		}
+
+		Debug.Log("Enabled : " + enabled + " Disabled: " + disabled + " BulletsActive: " + Bullet.bulletsActive);
+		/*
+		GameObject bullet = null;
+		bullet = GetObjectByType(PrefabType.BULLET);
+		bullet.transform.parent = null;
+
+		if (bullet != null)
+		{
+			PoolObject(bullet);
+		}
+		else
+		{
+			Debug.Log("ShitHappens");
+		}
+		*/
+		
+
 	}
 }

@@ -308,8 +308,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c04c8e6717566649b77daf6e79789bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 20
-  radius: 3
+  damage: 10
+  radius: 10
   rotationSpeed: 20
   fireRate: 10
   bulletOut: {fileID: 4502723585366354}

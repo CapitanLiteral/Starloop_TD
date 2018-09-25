@@ -11,9 +11,10 @@ public class Mobile : MonoBehaviour
 	[SerializeField]
 	float speed = 10f;
 	[SerializeField]
-	float StartHealth = 100;
+	float startHealth = 100;
 	
 	float health;
+	
 
 	[Header("UI")]
 	public Image healthBar;
@@ -25,11 +26,36 @@ public class Mobile : MonoBehaviour
 
 	public Vector3 velocity = Vector3.zero;
 
+	public float Speed
+	{
+		get
+		{
+			return speed;
+		}
+
+		set
+		{
+			speed = value;
+		}
+	}
+
+	public float StartHealth
+	{
+		get
+		{
+			return startHealth;
+		}
+
+		set
+		{
+			startHealth = value;
+		}
+	}
+
 	// Use this for initialization
 	void Start ()
 	{
-
-		health = StartHealth;
+		SetDefaultStats();
 	}
 	
 	// Update is called once per frame
@@ -49,6 +75,7 @@ public class Mobile : MonoBehaviour
 		if (health <= 0)
 		{
 			active = false;
+			SetDefaultStats();
 		}
 	}
 
@@ -93,5 +120,10 @@ public class Mobile : MonoBehaviour
 			TakeDamage(bullet.damage);
 			bullet.PoolBullet();
 		}
+	}
+
+	void SetDefaultStats()
+	{
+		health = StartHealth;
 	}
 }

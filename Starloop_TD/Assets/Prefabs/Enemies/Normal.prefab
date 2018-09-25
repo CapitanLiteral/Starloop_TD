@@ -207,7 +207,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 7
-  StartHealth: 100
+  startHealth: 100
   healthBar: {fileID: 114392541891862208}
   target: {x: 0, y: 0, z: 0}
   pathIndex: 0

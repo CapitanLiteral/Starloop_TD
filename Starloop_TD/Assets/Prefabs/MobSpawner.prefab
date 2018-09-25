@@ -124,4 +124,7 @@ MonoBehaviour:
   Pathfinder: {fileID: 0}
   normalEnemy: {fileID: 1187188930326162, guid: 493f9948922bd2242bc4246f96cb1479,
     type: 2}
-  Waves: 6
+  Waves: 50
+  distance: 2
+  waveStep: 0.5
+  waveEnemies: 1

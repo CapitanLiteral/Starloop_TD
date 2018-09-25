@@ -17,13 +17,11 @@ public class SpawnManager : MonoBehaviour
 	int Waves = 5;
 
 	[SerializeField]
-	int startingMobs = 5;
-
-	[SerializeField]
 	float distance = 1.5f;
 
 	[SerializeField]
-	float waveMultiplier;
+	float waveStep;
+	[SerializeField]
 	float waveEnemies  = 5;
 
 	List<Mobile> activeEnemies;
@@ -36,7 +34,7 @@ public class SpawnManager : MonoBehaviour
 	}
 
 	// Use this for initialization
-	void Start ()
+	void Start()
 	{
 		Pathfinder = FindObjectOfType<BFS>();
 		Crystal = GameManager.Instance.Map.crystal;
@@ -54,11 +52,11 @@ public class SpawnManager : MonoBehaviour
 		StartCoroutine(SpawnWave());
 
 	}
-	
+
 	// Update is called once per frame
-	void Update ()
+	void Update()
 	{
-		for(int i = 0; i < activeEnemies.Count; ++i)
+		for (int i = 0; i < activeEnemies.Count; ++i)
 		{
 			if (!activeEnemies[i].active)
 			{
@@ -82,44 +80,47 @@ public class SpawnManager : MonoBehaviour
 
 	IEnumerator SpawnWave()
 	{
-		//yield return new WaitForSeconds(5f);
+		int waveType = (int)Mathf.Round(Random.Range(1, 4));
+		float timeBetweenMobs = 0f;
+
 		for (int i = 0; i < Waves; ++i)
 		{
-			if (i < 2)
+			//yield return new WaitForSeconds(5f);
+			if (waveType == 1)
 			{
-				for (int j = 0; j < 5; j++)
+				for (int j = 0; j < waveEnemies; j++)
 				{
 					Mobile mob = SpawnEnemyNormal();
 					activeEnemies.Add(mob);
 					mob.active = true;
-
-					yield return new WaitForSeconds(0.5f);
+					timeBetweenMobs =  distance / mob.Speed;
+					yield return new WaitForSeconds(timeBetweenMobs);
 				}
-
 			}
-			else if(i < 4)
+			else if (waveType == 2)
 			{
-				for (int j = 0; j < 5; j++)
+				for (int j = 0; j < waveEnemies; j++)
 				{
 					Mobile mob = SpawnEnemySwift();
 					activeEnemies.Add(mob);
 					mob.active = true;
-
-					yield return new WaitForSeconds(0.5f);
+					timeBetweenMobs = distance / mob.Speed;
+					yield return new WaitForSeconds(timeBetweenMobs);
 				}
-
 			}
-			else if(i < 6)
+			else if (waveType == 3)
 			{
-				for (int j = 0; j < 5; j++)
+				for (int j = 0; j < waveEnemies; j++)
 				{
 					Mobile mob = SpawnEnemyHeavy();
 					activeEnemies.Add(mob);
 					mob.active = true;
-
-					yield return new WaitForSeconds(0.5f);
+					timeBetweenMobs = distance / mob.Speed;
+					yield return new WaitForSeconds(timeBetweenMobs);
 				}
 			}
+			waveType = (int)Mathf.Round(Random.Range(1, 4));
+			waveEnemies = waveEnemies + waveStep;
 			yield return new WaitForSeconds(5f);
 		}
 	}
@@ -161,8 +162,8 @@ public class SpawnManager : MonoBehaviour
 
 	public bool RecalculatePath()
 	{
-		bool availablePath = true;		
-		List <List <Vector3>> activePaths = new List<List<Vector3>>();
+		bool availablePath = true;
+		List<List<Vector3>> activePaths = new List<List<Vector3>>();
 
 		List<Vector3> pathToCheck = Pathfinder.FindPath(transform.position, Crystal.transform.position); ;
 
