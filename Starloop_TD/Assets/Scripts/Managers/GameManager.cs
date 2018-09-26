@@ -9,9 +9,14 @@ public class GameManager : MonoBehaviour
 
 	private static GameManager instance = null;              //Static instance of GameManager which allows it to be accessed by any other script
 	private MapManager map = null;
+	private Shop shop = null;
+
+	PoolManager.PrefabType turretTobuild = PoolManager.PrefabType.TURRET_CANNON;
 
 	[SerializeField]
-	int lives = 10;
+	int life = 10;
+	[SerializeField]
+	int money = 200;
 
 	#endregion
 
@@ -31,6 +36,57 @@ public class GameManager : MonoBehaviour
 		get
 		{
 			return map;
+		}
+	}
+
+	public int Life
+	{
+		get
+		{
+			return life;
+		}
+
+		set
+		{
+			life = value;
+		}
+	}
+	public PoolManager.PrefabType TurretTobuild
+	{
+		get
+		{
+			return turretTobuild;
+		}
+
+		set
+		{
+			turretTobuild = value;
+		}
+	}
+
+	public int Money
+	{
+		get
+		{
+			return money;
+		}
+
+		set
+		{
+			money = value;
+		}
+	}
+
+	public Shop Shop
+	{
+		get
+		{
+			return shop;
+		}
+
+		set
+		{
+			shop = value;
 		}
 	}
 	#endregion
@@ -58,13 +114,13 @@ public class GameManager : MonoBehaviour
     void InitGame()
     {
 		map = GetComponent<MapManager>();
+		shop = FindObjectOfType<Shop>();
     }
 
 
     //Update is called every frame.
     void Update()
     {
-
     }
 
 }

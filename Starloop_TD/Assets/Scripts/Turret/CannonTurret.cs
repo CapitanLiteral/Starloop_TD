@@ -33,8 +33,7 @@ public class CannonTurret : MonoBehaviour
 		counter += Time.deltaTime;
 		if (target == null)
 			return;
-
-		Mobile mob = target.transform.parent.GetComponent<Mobile>();
+		
 
 		Vector3 dir = target.transform.position - transform.position;
 
@@ -90,8 +89,7 @@ public class CannonTurret : MonoBehaviour
 		GameObject bulletObject = PoolManager.Instance.GetObjectByType(PoolManager.PrefabType.BULLET);
 		Bullet bullet = bulletObject.GetComponent<Bullet>();
 		bulletObject.transform.position = bulletOut.position;
-		bullet.transform.parent = null;// transform;
-		Mobile mob = target.transform.parent.GetComponent<Mobile>();
+		bullet.transform.parent = transform;
 		Vector3 dir = target.transform.position - transform.position;
 		dir.y = 0f;
 		bullet.Fire(dir, damage);

@@ -12,6 +12,8 @@ public class Mobile : MonoBehaviour
 	float speed = 10f;
 	[SerializeField]
 	float startHealth = 100;
+	[SerializeField]
+	int money = 10;
 	
 	float health;
 	
@@ -76,6 +78,7 @@ public class Mobile : MonoBehaviour
 		{
 			active = false;
 			SetDefaultStats();
+			GameManager.Instance.Money += money;
 		}
 	}
 
@@ -84,6 +87,7 @@ public class Mobile : MonoBehaviour
 		if (pathIndex >= Path.Count - 1)
 		{
 			active = false;
+			GameManager.Instance.Life--;
 		}
 		else
 		{
@@ -125,5 +129,6 @@ public class Mobile : MonoBehaviour
 	void SetDefaultStats()
 	{
 		health = StartHealth;
+		healthBar.fillAmount = health / StartHealth;
 	}
 }

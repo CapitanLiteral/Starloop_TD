@@ -12,6 +12,8 @@ public class Bullet : MonoBehaviour
 	public Vector3 direction = Vector3.zero;
 
 	public static int bulletsActive = 0;
+
+	public float fspeed;
 	// Use this for initialization
 	void OnEnable ()
 	{
@@ -19,8 +21,7 @@ public class Bullet : MonoBehaviour
 	}
 	private void OnDisable()
 	{
-		Rigidbody rigidbody = GetComponent<Rigidbody>();
-		rigidbody.AddForce(-direction * speed);
+		GetComponent<Rigidbody>().velocity = Vector3.zero;
 
 	}
 
@@ -29,7 +30,8 @@ public class Bullet : MonoBehaviour
 		/*gameObject.transform.Translate(direction.x * speed * Time.deltaTime, 
 										0,
 										direction.z * speed * Time.deltaTime);*/
-
+		Rigidbody rigidbody = GetComponent<Rigidbody>();
+		fspeed = rigidbody.velocity.magnitude;
 		Vector2 worldSize = GameManager.Instance.Map.GetWorldSize();
 
 		if (gameObject.transform.position.x > worldSize.x)
