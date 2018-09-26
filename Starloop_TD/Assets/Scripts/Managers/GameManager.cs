@@ -10,6 +10,9 @@ public class GameManager : MonoBehaviour
 	private static GameManager instance = null;              //Static instance of GameManager which allows it to be accessed by any other script
 	private MapManager map = null;
 
+	[SerializeField]
+	int lives = 10;
+
 	#endregion
 
 	#region Public members

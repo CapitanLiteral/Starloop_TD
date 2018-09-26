@@ -20,8 +20,6 @@ public class CameraOrbit : MonoBehaviour
 	float OrbitDampening = 10f;
 	[SerializeField]
 	float ScrollDampening = 6f;
-	[SerializeField]
-	bool CameraDisabled = true;
 
 	bool firstButtonPressed = false;
 	float timeOfFirstButton = 0f;
@@ -38,8 +36,6 @@ public class CameraOrbit : MonoBehaviour
 	
 	void LateUpdate ()
 	{
-		//if (Input.GetKeyDown(KeyCode.LeftAlt))
-		//	CameraDisabled = !CameraDisabled;
 		if (Input.GetKey(KeyCode.LeftAlt))
 		{
 			if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0)

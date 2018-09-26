@@ -7,8 +7,6 @@ public class Bullet : MonoBehaviour
 	public float damage = 10;
 	[SerializeField]
 	float speed = 1;
-	[SerializeField]
-	float lifeTime = 0.5f;
 
 	public Vector3 direction = Vector3.zero;
 

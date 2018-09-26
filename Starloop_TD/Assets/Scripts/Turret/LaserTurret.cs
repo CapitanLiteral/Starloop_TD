@@ -42,14 +42,6 @@ public class LaserTurret : MonoBehaviour
 
 		Mobile mob = target.transform.parent.GetComponent<Mobile>();
 
-		Vector3 dir = target.transform.position - transform.position;
-		
-		//Rotate turret
-		//Quaternion lookRotation = Quaternion.LookRotation(dir);
-		//Vector3 rotation = Quaternion.Lerp(partToRotate.rotation, lookRotation, Time.deltaTime * rotationSpeed).eulerAngles;
-		//partToRotate.rotation = Quaternion.Euler(0, rotation.y, 0);
-		//partToRotate.rotation = lookRotation;
-
 
 		if (counter >= 1 / fireRate)
 		{

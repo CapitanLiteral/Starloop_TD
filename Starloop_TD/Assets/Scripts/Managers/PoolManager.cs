@@ -167,24 +167,7 @@ public class PoolManager : MonoBehaviour
 				enabled++;
 			else
 				disabled++;
-		}
-
-		Debug.Log("Enabled : " + enabled + " Disabled: " + disabled + " BulletsActive: " + Bullet.bulletsActive);
-		/*
-		GameObject bullet = null;
-		bullet = GetObjectByType(PrefabType.BULLET);
-		bullet.transform.parent = null;
-
-		if (bullet != null)
-		{
-			PoolObject(bullet);
-		}
-		else
-		{
-			Debug.Log("ShitHappens");
-		}
-		*/
-		
+		}	
 
 	}
 }

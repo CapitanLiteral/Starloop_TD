@@ -90,7 +90,7 @@ public class SpawnManager : MonoBehaviour
 			{
 				for (int j = 0; j < waveEnemies; j++)
 				{
-					Mobile mob = SpawnEnemyNormal();
+					Mobile mob = SpawnEnemy(PoolManager.PrefabType.ENEMY_NORMAL);
 					activeEnemies.Add(mob);
 					mob.active = true;
 					timeBetweenMobs =  distance / mob.Speed;
@@ -101,7 +101,7 @@ public class SpawnManager : MonoBehaviour
 			{
 				for (int j = 0; j < waveEnemies; j++)
 				{
-					Mobile mob = SpawnEnemySwift();
+					Mobile mob = SpawnEnemy(PoolManager.PrefabType.ENEMY_FAST);
 					activeEnemies.Add(mob);
 					mob.active = true;
 					timeBetweenMobs = distance / mob.Speed;
@@ -112,7 +112,7 @@ public class SpawnManager : MonoBehaviour
 			{
 				for (int j = 0; j < waveEnemies; j++)
 				{
-					Mobile mob = SpawnEnemyHeavy();
+					Mobile mob = SpawnEnemy(PoolManager.PrefabType.ENEMY_HEAVY);
 					activeEnemies.Add(mob);
 					mob.active = true;
 					timeBetweenMobs = distance / mob.Speed;
@@ -125,10 +125,11 @@ public class SpawnManager : MonoBehaviour
 		}
 	}
 
-	Mobile SpawnEnemyNormal()
+	Mobile SpawnEnemy(PoolManager.PrefabType enemyType)
 	{
-		GameObject tmp = PoolManager.Instance.GetObjectByType(PoolManager.PrefabType.ENEMY_NORMAL);
-		tmp.transform.parent = transform;
+		GameObject tmp;
+		tmp = PoolManager.Instance.GetObjectByType(enemyType);
+		tmp.transform.parent = containerObject.transform;
 		tmp.transform.position = transform.position;
 
 		Mobile ret = tmp.GetComponent<Mobile>();
@@ -136,28 +137,7 @@ public class SpawnManager : MonoBehaviour
 
 		return ret;
 	}
-	Mobile SpawnEnemySwift()
-	{
-		GameObject tmp = PoolManager.Instance.GetObjectByType(PoolManager.PrefabType.ENEMY_FAST);
-		tmp.transform.parent = transform;
-		tmp.transform.position = transform.position;
 
-		Mobile ret = tmp.GetComponent<Mobile>();
-		ret.SetPath(Path);
-
-		return ret;
-	}
-	Mobile SpawnEnemyHeavy()
-	{
-		GameObject tmp = PoolManager.Instance.GetObjectByType(PoolManager.PrefabType.ENEMY_HEAVY);
-		tmp.transform.parent = transform;
-		tmp.transform.position = transform.position;
-
-		Mobile ret = tmp.GetComponent<Mobile>();
-		ret.SetPath(Path);
-
-		return ret;
-	}
 
 
 	public bool RecalculatePath()
