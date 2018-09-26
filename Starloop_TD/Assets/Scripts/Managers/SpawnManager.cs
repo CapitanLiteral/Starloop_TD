@@ -74,9 +74,7 @@ public class SpawnManager : MonoBehaviour
 		{
 			--timeRemaining;
 			if (timeRemaining < 0)
-			{
 				timeRemaining = 0;
-			}
 			time = Time.timeSinceLevelLoad;
 		}
 		
