@@ -30,27 +30,28 @@ public class CannonTurret : MonoBehaviour
 
 	void Update()
 	{
-		counter += Time.deltaTime;
-		if (target == null)
-			return;
-
-		Mobile mob = target.transform.parent.GetComponent<Mobile>();
-
-		Vector3 dir = target.transform.position + (mob.velocity*Time.deltaTime) - transform.position;
-
-		Quaternion lookRotation = Quaternion.LookRotation(dir);
-		Vector3 rotation = Quaternion.Lerp(partToRotate.rotation, lookRotation, Time.deltaTime * rotationSpeed).eulerAngles;
-		partToRotate.rotation = Quaternion.Euler(0, rotation.y, 0);
-
-
-
-		if (counter >= 1/fireRate)
+		if (!GameManager.Instance.GameIsOver)
 		{
-			if (target != null)
-				SpawnBullet();
-			counter = 0;
-		}
+			counter += Time.deltaTime;
+			if (target == null)
+				return;
 
+
+			Vector3 dir = target.transform.position - transform.position;
+
+			Quaternion lookRotation = Quaternion.LookRotation(dir);
+			Vector3 rotation = Quaternion.Lerp(partToRotate.rotation, lookRotation, Time.deltaTime * rotationSpeed).eulerAngles;
+			partToRotate.rotation = Quaternion.Euler(0, rotation.y, 0);
+
+			if (counter >= 1 / fireRate)
+			{
+				if (target != null)
+					SpawnBullet();
+				counter = 0;
+			}
+
+
+		}
 
 	}
 
@@ -74,7 +75,7 @@ public class CannonTurret : MonoBehaviour
 			}
 		}
 
-		if (nearestEnemy != null && nearestEnemy != target)
+		if (nearestEnemy != null)
 		{
 			target = nearestEnemy;
 		}
@@ -89,12 +90,11 @@ public class CannonTurret : MonoBehaviour
 	{
 		GameObject bulletObject = PoolManager.Instance.GetObjectByType(PoolManager.PrefabType.BULLET);
 		Bullet bullet = bulletObject.GetComponent<Bullet>();
-		bullet.damage = damage;
 		bulletObject.transform.position = bulletOut.position;
-		bullet.transform.parent = null;// transform;
-		Vector3 direction = target.transform.position - transform.position;
-
-		bullet.direction = direction;
+		bullet.transform.parent = transform;
+		Vector3 dir = target.transform.position - transform.position;
+		dir.y = 0f;
+		bullet.Fire(dir, damage);
 	}
 
 	private void OnDrawGizmos()

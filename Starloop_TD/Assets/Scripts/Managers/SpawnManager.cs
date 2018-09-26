@@ -23,6 +23,8 @@ public class SpawnManager : MonoBehaviour
 	float waveStep;
 	[SerializeField]
 	float waveEnemies  = 5;
+	[SerializeField]
+	float timeBetweenWaves = 5;
 
 	List<Mobile> activeEnemies;
 
@@ -80,6 +82,7 @@ public class SpawnManager : MonoBehaviour
 
 	IEnumerator SpawnWave()
 	{
+		
 		int waveType = (int)Mathf.Round(Random.Range(1, 4));
 		float timeBetweenMobs = 0f;
 
@@ -121,7 +124,12 @@ public class SpawnManager : MonoBehaviour
 			}
 			waveType = (int)Mathf.Round(Random.Range(1, 4));
 			waveEnemies = waveEnemies + waveStep;
-			yield return new WaitForSeconds(5f);
+			GameManager.Instance.wavesSurvived++;
+			yield return new WaitForSeconds(timeBetweenWaves);
+			if (GameManager.Instance.GameIsOver)
+			{
+				break;
+			}
 		}
 	}
 

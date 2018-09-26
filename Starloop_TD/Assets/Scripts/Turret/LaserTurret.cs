@@ -9,8 +9,6 @@ public class LaserTurret : MonoBehaviour
 	float damage = 20;
 	[SerializeField]
 	float radius = 3;
-	[SerializeField]
-	float rotationSpeed = 10;
 	//Shoot bullets per second
 	[SerializeField]
 	float fireRate = 10;
@@ -18,9 +16,7 @@ public class LaserTurret : MonoBehaviour
 	[SerializeField]
 	Transform firePoint;
 	LineRenderer laser;
-
-	[SerializeField]
-	Transform partToRotate;
+	
 
 	float counter = 0;
 

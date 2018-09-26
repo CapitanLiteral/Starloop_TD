@@ -128,3 +128,4 @@ MonoBehaviour:
   distance: 2
   waveStep: 0.5
   waveEnemies: 1
+  timeBetweenWaves: 10

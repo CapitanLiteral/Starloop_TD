@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -22,30 +23,29 @@ public class PlayerManager : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		if (Input.GetKeyDown(KeyCode.Mouse0))
+		if (!EventSystem.current.IsPointerOverGameObject())
 		{
-			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			RaycastHit hit;
-			if (Physics.Raycast(ray, out hit, LayerMask.GetMask("Ground")))
+			if (Input.GetKeyDown(KeyCode.Mouse0) && !GameManager.Instance.GameIsOver)
 			{
-				GameObject turret = SpawnTurret(hit.point, PoolManager.PrefabType.TURRET_CANNON);
-				if (turret != null)
-					turret.transform.parent = ContainerObject.transform;
+				if (GameManager.Instance.Shop.GetItem(GameManager.Instance.TurretTobuild).cost <= GameManager.Instance.Money)
+				{
+					
+					Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+					RaycastHit hit;
+					if (Physics.Raycast(ray, out hit, LayerMask.GetMask("Ground")))
+					{
+						GameObject turret = SpawnTurret(hit.point, GameManager.Instance.TurretTobuild);
+						if (turret != null)
+						{
+							GameManager.Instance.Money -= GameManager.Instance.Shop.GetItem(GameManager.Instance.TurretTobuild).cost;
+							turret.transform.parent = ContainerObject.transform;
+						}
 
-
-
+					}
+				}
+				
 			}
-		}
-		if (Input.GetKeyDown(KeyCode.Mouse1))
-		{
-			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			RaycastHit hit;
-			if (Physics.Raycast(ray, out hit))
-			{
-				GameObject turret = SpawnTurret(hit.point, PoolManager.PrefabType.TURRET_LASER);
-				if (turret != null)
-					turret.transform.parent = ContainerObject.transform;
-			}
+
 		}
 	}
 

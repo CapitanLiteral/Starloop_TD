@@ -55,9 +55,6 @@ public class PoolManager : MonoBehaviour
 		else if (Instance != this)
 			Destroy(gameObject);
 
-		//Sets this to not be destroyed when reloading scene
-		DontDestroyOnLoad(gameObject);
-
 		Initialize();
 	}
 
@@ -160,14 +157,6 @@ public class PoolManager : MonoBehaviour
 	{
 		int disabled = 0;
 		int enabled = 0;
-
-		foreach (var item in pooledObjects[PrefabType.BULLET])
-		{
-			if (item.gameObject.activeSelf)
-				enabled++;
-			else
-				disabled++;
-		}	
 
 	}
 }

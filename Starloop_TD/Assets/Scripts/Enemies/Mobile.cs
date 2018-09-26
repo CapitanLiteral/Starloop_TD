@@ -12,6 +12,8 @@ public class Mobile : MonoBehaviour
 	float speed = 10f;
 	[SerializeField]
 	float startHealth = 100;
+	[SerializeField]
+	int money = 10;
 	
 	float health;
 	
@@ -61,21 +63,26 @@ public class Mobile : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		if (Path != null)
+		if (!GameManager.Instance.GameIsOver)
 		{
-			Vector3 dir = target - transform.position;
-			velocity = dir.normalized * speed;
-			transform.Translate(velocity * Time.deltaTime, Space.World);
-
-			if (Vector3.Distance(target, transform.position) <= 0.5f)
+			if (Path != null)
 			{
-				GetNextWaypoint();
+				Vector3 dir = target - transform.position;
+				velocity = dir.normalized * speed;
+				transform.Translate(velocity * Time.deltaTime, Space.World);
+
+				if (Vector3.Distance(target, transform.position) <= 0.5f)
+				{
+					GetNextWaypoint();
+				}
 			}
-		}
-		if (health <= 0)
-		{
-			active = false;
-			SetDefaultStats();
+			if (health <= 0)
+			{
+				active = false;
+				SetDefaultStats();
+				GameManager.Instance.Money += money;
+			}
+
 		}
 	}
 
@@ -84,6 +91,7 @@ public class Mobile : MonoBehaviour
 		if (pathIndex >= Path.Count - 1)
 		{
 			active = false;
+			GameManager.Instance.Life--;
 		}
 		else
 		{
@@ -125,5 +133,6 @@ public class Mobile : MonoBehaviour
 	void SetDefaultStats()
 	{
 		health = StartHealth;
+		healthBar.fillAmount = health / StartHealth;
 	}
 }

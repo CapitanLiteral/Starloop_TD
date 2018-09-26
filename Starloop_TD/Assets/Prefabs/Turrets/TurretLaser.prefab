@@ -294,12 +294,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e4f5c52a37e174da25e5631b139bec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 5
-  radius: 7
-  rotationSpeed: 10
+  damage: 1
+  radius: 15
   fireRate: 30
   firePoint: {fileID: 4438016871772072}
-  partToRotate: {fileID: 4097708719760864}
 --- !u!120 &120901311774710150
 LineRenderer:
   m_ObjectHideFlags: 1
