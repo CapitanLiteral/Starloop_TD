@@ -25,7 +25,7 @@ public class PlayerManager : MonoBehaviour
 	{
 		if (!EventSystem.current.IsPointerOverGameObject())
 		{
-			if (Input.GetKeyDown(KeyCode.Mouse0))
+			if (Input.GetKeyDown(KeyCode.Mouse0) && !GameManager.Instance.GameIsOver)
 			{
 				if (GameManager.Instance.Shop.GetItem(GameManager.Instance.TurretTobuild).cost <= GameManager.Instance.Money)
 				{

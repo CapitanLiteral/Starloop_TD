@@ -82,6 +82,7 @@ public class SpawnManager : MonoBehaviour
 
 	IEnumerator SpawnWave()
 	{
+		
 		int waveType = (int)Mathf.Round(Random.Range(1, 4));
 		float timeBetweenMobs = 0f;
 
@@ -123,7 +124,12 @@ public class SpawnManager : MonoBehaviour
 			}
 			waveType = (int)Mathf.Round(Random.Range(1, 4));
 			waveEnemies = waveEnemies + waveStep;
+			GameManager.Instance.wavesSurvived++;
 			yield return new WaitForSeconds(timeBetweenWaves);
+			if (GameManager.Instance.GameIsOver)
+			{
+				break;
+			}
 		}
 	}
 

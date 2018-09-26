@@ -63,22 +63,26 @@ public class Mobile : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		if (Path != null)
+		if (!GameManager.Instance.GameIsOver)
 		{
-			Vector3 dir = target - transform.position;
-			velocity = dir.normalized * speed;
-			transform.Translate(velocity * Time.deltaTime, Space.World);
-
-			if (Vector3.Distance(target, transform.position) <= 0.5f)
+			if (Path != null)
 			{
-				GetNextWaypoint();
+				Vector3 dir = target - transform.position;
+				velocity = dir.normalized * speed;
+				transform.Translate(velocity * Time.deltaTime, Space.World);
+
+				if (Vector3.Distance(target, transform.position) <= 0.5f)
+				{
+					GetNextWaypoint();
+				}
 			}
-		}
-		if (health <= 0)
-		{
-			active = false;
-			SetDefaultStats();
-			GameManager.Instance.Money += money;
+			if (health <= 0)
+			{
+				active = false;
+				SetDefaultStats();
+				GameManager.Instance.Money += money;
+			}
+
 		}
 	}
 
