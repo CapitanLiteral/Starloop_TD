@@ -133,6 +133,7 @@ public class GameManager : MonoBehaviour
 		{
 			GameIsOver = true;
 			gameOverMenu.SetActive(true);
+			shop.gameObject.SetActive(false);
 		}
     }
 

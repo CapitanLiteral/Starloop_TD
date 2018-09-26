@@ -25,6 +25,8 @@ public class SpawnManager : MonoBehaviour
 	float waveEnemies  = 5;
 	[SerializeField]
 	float timeBetweenWaves = 5;
+	public static int timeRemaining;
+	float time;
 
 	List<Mobile> activeEnemies;
 
@@ -50,7 +52,8 @@ public class SpawnManager : MonoBehaviour
 		tmp.transform.position = transform.position;
 
 		tmp.GetComponent<MobMove>().SetPath(Path);*/
-
+		time = Time.timeSinceLevelLoad;
+		timeRemaining = (int)timeBetweenWaves;
 		StartCoroutine(SpawnWave());
 
 	}
@@ -66,6 +69,18 @@ public class SpawnManager : MonoBehaviour
 				activeEnemies.RemoveAt(i);
 			}
 		}
+
+		if (Time.timeSinceLevelLoad - time >= 1)
+		{
+			--timeRemaining;
+			if (timeRemaining < 0)
+			{
+				timeRemaining = 0;
+			}
+			time = Time.timeSinceLevelLoad;
+		}
+		
+		
 	}
 
 	private void OnDrawGizmos()
@@ -88,6 +103,8 @@ public class SpawnManager : MonoBehaviour
 
 		for (int i = 0; i < Waves; ++i)
 		{
+			yield return new WaitForSeconds(timeBetweenWaves);
+			timeRemaining = (int)timeBetweenWaves;
 			//yield return new WaitForSeconds(5f);
 			if (waveType == 1)
 			{
@@ -125,7 +142,6 @@ public class SpawnManager : MonoBehaviour
 			waveType = (int)Mathf.Round(Random.Range(1, 4));
 			waveEnemies = waveEnemies + waveStep;
 			GameManager.Instance.wavesSurvived++;
-			yield return new WaitForSeconds(timeBetweenWaves);
 			if (GameManager.Instance.GameIsOver)
 			{
 				break;
