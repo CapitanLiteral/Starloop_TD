@@ -7,9 +7,6 @@ public class SpawnManager : MonoBehaviour
 	[SerializeField]
 	BFS Pathfinder;
 
-	MapManager Map;
-	PoolManager Pool;
-
 	GameObject Crystal;
 	List<Vector3> Path;
 
@@ -18,6 +15,14 @@ public class SpawnManager : MonoBehaviour
 
 	[SerializeField]
 	int Waves = 5;
+
+	[SerializeField]
+	float distance = 1.5f;
+
+	[SerializeField]
+	float waveStep;
+	[SerializeField]
+	float waveEnemies  = 5;
 
 	List<Mobile> activeEnemies;
 
@@ -29,12 +34,10 @@ public class SpawnManager : MonoBehaviour
 	}
 
 	// Use this for initialization
-	void Start ()
+	void Start()
 	{
-		Pool = FindObjectOfType<PoolManager>();
 		Pathfinder = FindObjectOfType<BFS>();
-		Map = FindObjectOfType<MapManager>();
-		Crystal = Map.crystal;
+		Crystal = GameManager.Instance.Map.crystal;
 
 		activeEnemies = new List<Mobile>();
 
@@ -49,15 +52,15 @@ public class SpawnManager : MonoBehaviour
 		StartCoroutine(SpawnWave());
 
 	}
-	
+
 	// Update is called once per frame
-	void Update ()
+	void Update()
 	{
-		for(int i = 0; i < activeEnemies.Count; ++i)
+		for (int i = 0; i < activeEnemies.Count; ++i)
 		{
 			if (!activeEnemies[i].active)
 			{
-				Pool.PoolObject(activeEnemies[i].gameObject);
+				PoolManager.Instance.PoolObject(activeEnemies[i].gameObject);
 				activeEnemies.RemoveAt(i);
 			}
 		}
@@ -77,34 +80,56 @@ public class SpawnManager : MonoBehaviour
 
 	IEnumerator SpawnWave()
 	{
-		//yield return new WaitForSeconds(5f);
-		//for (int i = 0; i < Waves; ++i)
-		//{
-		//	for (int j = 0; j < 5; j++)
-		//	{
-		//		MobMove mob = SpawnEnemyNormal();
-		//		activeEnemies.Add(mob);
-		//		mob.active = true;
-		//
-		//		yield return new WaitForSeconds(0.5f);
-		//	}
-		//	yield return new WaitForSeconds(5f);
-		//}
-		while (true)
-		{
-			Mobile mob = SpawnEnemyNormal();
-			mob.transform.parent = containerObject.transform;
-			activeEnemies.Add(mob);
-			mob.active = true;
-			yield return new WaitForSeconds(0.5f);
-		}
+		int waveType = (int)Mathf.Round(Random.Range(1, 4));
+		float timeBetweenMobs = 0f;
 
+		for (int i = 0; i < Waves; ++i)
+		{
+			//yield return new WaitForSeconds(5f);
+			if (waveType == 1)
+			{
+				for (int j = 0; j < waveEnemies; j++)
+				{
+					Mobile mob = SpawnEnemy(PoolManager.PrefabType.ENEMY_NORMAL);
+					activeEnemies.Add(mob);
+					mob.active = true;
+					timeBetweenMobs =  distance / mob.Speed;
+					yield return new WaitForSeconds(timeBetweenMobs);
+				}
+			}
+			else if (waveType == 2)
+			{
+				for (int j = 0; j < waveEnemies; j++)
+				{
+					Mobile mob = SpawnEnemy(PoolManager.PrefabType.ENEMY_FAST);
+					activeEnemies.Add(mob);
+					mob.active = true;
+					timeBetweenMobs = distance / mob.Speed;
+					yield return new WaitForSeconds(timeBetweenMobs);
+				}
+			}
+			else if (waveType == 3)
+			{
+				for (int j = 0; j < waveEnemies; j++)
+				{
+					Mobile mob = SpawnEnemy(PoolManager.PrefabType.ENEMY_HEAVY);
+					activeEnemies.Add(mob);
+					mob.active = true;
+					timeBetweenMobs = distance / mob.Speed;
+					yield return new WaitForSeconds(timeBetweenMobs);
+				}
+			}
+			waveType = (int)Mathf.Round(Random.Range(1, 4));
+			waveEnemies = waveEnemies + waveStep;
+			yield return new WaitForSeconds(5f);
+		}
 	}
 
-	Mobile SpawnEnemyNormal()
+	Mobile SpawnEnemy(PoolManager.PrefabType enemyType)
 	{
-		GameObject tmp = Pool.GetObjectByType(PoolManager.PrefabType.ENEMY_NORMAL);
-		tmp.transform.parent = transform;
+		GameObject tmp;
+		tmp = PoolManager.Instance.GetObjectByType(enemyType);
+		tmp.transform.parent = containerObject.transform;
 		tmp.transform.position = transform.position;
 
 		Mobile ret = tmp.GetComponent<Mobile>();
@@ -113,10 +138,12 @@ public class SpawnManager : MonoBehaviour
 		return ret;
 	}
 
+
+
 	public bool RecalculatePath()
 	{
-		bool availablePath = true;		
-		List <List <Vector3>> activePaths = new List<List<Vector3>>();
+		bool availablePath = true;
+		List<List<Vector3>> activePaths = new List<List<Vector3>>();
 
 		List<Vector3> pathToCheck = Pathfinder.FindPath(transform.position, Crystal.transform.position); ;
 

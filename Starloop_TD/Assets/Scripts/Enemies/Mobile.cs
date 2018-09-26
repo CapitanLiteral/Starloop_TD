@@ -8,17 +8,15 @@ public class Mobile : MonoBehaviour
 	[HideInInspector]
 	List<Vector3> Path;
 
-	MapManager Map;
-	PoolManager Pool;
-
 	[SerializeField]
 	float speed = 10f;
 	[SerializeField]
-	float StartHealth = 100;
-
+	float startHealth = 100;
+	
 	float health;
+	
 
-	[Header("UnityStuff")]
+	[Header("UI")]
 	public Image healthBar;
 	
 	public Vector3 target;
@@ -26,13 +24,38 @@ public class Mobile : MonoBehaviour
 
 	public bool active = false;
 
+	public Vector3 velocity = Vector3.zero;
+
+	public float Speed
+	{
+		get
+		{
+			return speed;
+		}
+
+		set
+		{
+			speed = value;
+		}
+	}
+
+	public float StartHealth
+	{
+		get
+		{
+			return startHealth;
+		}
+
+		set
+		{
+			startHealth = value;
+		}
+	}
+
 	// Use this for initialization
 	void Start ()
 	{
-		Map = FindObjectOfType<MapManager>();
-		Pool = FindObjectOfType<PoolManager>();
-
-		health = StartHealth;
+		SetDefaultStats();
 	}
 	
 	// Update is called once per frame
@@ -41,16 +64,18 @@ public class Mobile : MonoBehaviour
 		if (Path != null)
 		{
 			Vector3 dir = target - transform.position;
-			transform.Translate(dir.normalized * speed * Time.deltaTime, Space.World);
+			velocity = dir.normalized * speed;
+			transform.Translate(velocity * Time.deltaTime, Space.World);
 
-			if (Vector3.Distance(target, transform.position) <= 0.2f)
+			if (Vector3.Distance(target, transform.position) <= 0.5f)
 			{
-				GetNextWaypoint();				
+				GetNextWaypoint();
 			}
 		}
 		if (health <= 0)
 		{
 			active = false;
+			SetDefaultStats();
 		}
 	}
 
@@ -84,5 +109,21 @@ public class Mobile : MonoBehaviour
 	{
 		health -= amount;
 		healthBar.fillAmount = health / StartHealth;
+	}
+
+	private void OnTriggerEnter(Collider other)
+	{
+		GameObject go = other.gameObject;
+		if (go.tag == "Bullet")
+		{
+			Bullet bullet = go.GetComponent<Bullet>();
+			TakeDamage(bullet.damage);
+			bullet.PoolBullet();
+		}
+	}
+
+	void SetDefaultStats()
+	{
+		health = StartHealth;
 	}
 }

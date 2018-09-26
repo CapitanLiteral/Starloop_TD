@@ -14,7 +14,7 @@ public class PoolManager : MonoBehaviour
 		public int amount;
 		public GameObject objectPrefab;
 	}
-	
+
 	//Type of accepted prefabs
 	public enum PrefabType
 	{
@@ -23,10 +23,11 @@ public class PoolManager : MonoBehaviour
 		ENEMY_FAST,
 		ENEMY_HEAVY,
 		TURRET_LASER,
-		TURRET_CANNON
+		TURRET_CANNON,
+		BULLET
 	}
 
-	public static PoolManager instance = null;
+	private static PoolManager instance = null;
 
 	//Array that stores prefabs to be loaded on awake
 	public Prefab[] prefabs;
@@ -36,16 +37,34 @@ public class PoolManager : MonoBehaviour
 
 	GameObject containerObject;
 
+	public static PoolManager Instance
+	{
+		get
+		{
+			return instance;
+		}
+	}
+
 	void Awake()
 	{
-		instance = this;
+		//Check if instance already exists
+		if (Instance == null)
+			//if not, set instance to this
+			instance = this;
+		//If instance already exists and it's not this:
+		else if (Instance != this)
+			Destroy(gameObject);
+
+		//Sets this to not be destroyed when reloading scene
+		DontDestroyOnLoad(gameObject);
+
 		Initialize();
 	}
 
 	void Initialize()
 	{
 		containerObject = new GameObject("PoolManager");
-		
+
 		pooledObjects = new Dictionary<PrefabType, List<GameObject>>();
 
 		for (int i = 0; i < prefabs.Length; i++)
@@ -109,7 +128,7 @@ public class PoolManager : MonoBehaviour
 
 				return pooledObject;
 			}
-			else if(!onlyPooled)
+			else if (!onlyPooled)
 			{
 				for (int i = 0; i < prefabs.Length; i++)
 				{
@@ -118,15 +137,15 @@ public class PoolManager : MonoBehaviour
 						GameObject pooledObject = Instantiate(prefabs[i].objectPrefab) as GameObject;
 						pooledObject.name = prefabs[i].objectPrefab.name;
 						return pooledObject;
-					}					
-				}				
+					}
+				}
 			}
 			else
 			{
 				Debug.LogWarning("There is no pooled object of type " + objectType + "(check 'onlyPooled' parameter)", this); // idk if I should use 'this' as context...
 			}
-			
-			
+
+
 		}
 		else
 		{
@@ -135,5 +154,20 @@ public class PoolManager : MonoBehaviour
 
 
 		return null;
+	}
+
+	private void Update()
+	{
+		int disabled = 0;
+		int enabled = 0;
+
+		foreach (var item in pooledObjects[PrefabType.BULLET])
+		{
+			if (item.gameObject.activeSelf)
+				enabled++;
+			else
+				disabled++;
+		}	
+
 	}
 }

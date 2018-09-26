@@ -9,8 +9,12 @@ public class BFS : MonoBehaviour
 	public Queue<Tile> OpenList;
 	public List<Tile> ExploredNodes { get; private set; }
 
-	[SerializeField]
-	MapManager Map;
+	MapManager map;
+
+	private void Awake()
+	{
+		map = GameManager.Instance.Map;
+	}
 
 	//Finds a path to a node, if there is no path returns null
 	public List<Vector3> FindPath(Vector3 start, Vector3 end)
@@ -20,39 +24,39 @@ public class BFS : MonoBehaviour
 		OpenList = new Queue<Tile>();
 		ExploredNodes = new List<Tile>();		
 
-		Vector2 startMapPos = Map.WorldToMapPosition(start);
-		Vector2 endMapPos = Map.WorldToMapPosition(end);
+		Vector2 startMapPos = map.WorldToMapPosition(start);
+		Vector2 endMapPos = map.WorldToMapPosition(end);
 
-		Tile startNode = Map.TileMap[(int)startMapPos.x, (int)startMapPos.y];
-		Tile endNode = Map.TileMap[(int)endMapPos.x, (int)endMapPos.y];
+		Tile startNode = map.TileMap[(int)startMapPos.x, (int)startMapPos.y];
+		Tile endNode = map.TileMap[(int)endMapPos.x, (int)endMapPos.y];
 
 		List<Vector3> ret = new List<Vector3>();
 
 		//Exploring nodes
 		if (start != end)
 		{
-			Tile actualNode = startNode;
+			Tile currentNode = startNode;
 			OpenList.Enqueue(startNode);
-			while ((actualNode.Position != endNode.Position) && OpenList.Any())
+			while ((currentNode.Position != endNode.Position) && OpenList.Any())
 			{
-				actualNode = OpenList.Dequeue();
+				currentNode = OpenList.Dequeue();
 				//Add neighbors to the open list
-				List<Tile> neighbors = GetNeighborNodes(actualNode);
+				List<Tile> neighbors = GetNeighborNodes(currentNode);
 				foreach (var neighbor in neighbors)
 				{
-					neighbor.parent = actualNode;
+					neighbor.parent = currentNode;
 					OpenList.Enqueue(neighbor);
 				}
 
-				ExploredNodes.Add(actualNode);
+				ExploredNodes.Add(currentNode);
 			} 
 
 			//Filling path
-			while (actualNode.Position != startNode.Position)
+			while (currentNode.Position != startNode.Position)
 			{
-				ret.Add(Map.MapToWorldPosition(actualNode.Position));
-				Tile tmpNode = actualNode;
-				actualNode = actualNode.parent;
+				ret.Add(map.MapToWorldPosition(currentNode.Position));
+				Tile tmpNode = currentNode;
+				currentNode = currentNode.parent;
 				//Resetting parent status for the next path finding
 				tmpNode.parent = null;
 			}
@@ -98,7 +102,7 @@ public class BFS : MonoBehaviour
 		
 		if (!(center.Position.x - 1 < 0))
 		{
-			Tile left = Map.TileMap[(int)center.Position.x - 1, (int)center.Position.y];
+			Tile left = map.TileMap[(int)center.Position.x - 1, (int)center.Position.y];
 			if (!(OpenList.Contains(left) ||
 			      ExploredNodes.Contains(left)))
 			{
@@ -106,9 +110,9 @@ public class BFS : MonoBehaviour
 					neighbors.Add(left);
 			}
 		}
-		if (!(center.Position.x + 1 >= Map.TileMap.GetLength(0)))
+		if (!(center.Position.x + 1 >= map.TileMap.GetLength(0)))
 		{
-			Tile right = Map.TileMap[(int)center.Position.x + 1, (int)center.Position.y];
+			Tile right = map.TileMap[(int)center.Position.x + 1, (int)center.Position.y];
 			if (!(OpenList.Contains(right) ||
 			      ExploredNodes.Contains(right)))
 			{
@@ -118,7 +122,7 @@ public class BFS : MonoBehaviour
 		}
 		if (!(center.Position.y - 1 < 0))
 		{
-			Tile top = Map.TileMap[(int)center.Position.x, (int)center.Position.y - 1];
+			Tile top = map.TileMap[(int)center.Position.x, (int)center.Position.y - 1];
 			if (!(OpenList.Contains(top) ||
 			      ExploredNodes.Contains(top)))
 			{
@@ -126,9 +130,9 @@ public class BFS : MonoBehaviour
 					neighbors.Add(top);
 			}
 		}
-		if (!(center.Position.y + 1 >= Map.TileMap.GetLength(1)))
+		if (!(center.Position.y + 1 >= map.TileMap.GetLength(1)))
 		{
-			Tile bottom = Map.TileMap[(int)center.Position.x, (int)center.Position.y + 1];
+			Tile bottom = map.TileMap[(int)center.Position.x, (int)center.Position.y + 1];
 			if (!(OpenList.Contains(bottom) ||
 			      ExploredNodes.Contains(bottom)))
 			{

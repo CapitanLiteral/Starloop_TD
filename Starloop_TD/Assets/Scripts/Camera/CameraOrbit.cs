@@ -20,8 +20,6 @@ public class CameraOrbit : MonoBehaviour
 	float OrbitDampening = 10f;
 	[SerializeField]
 	float ScrollDampening = 6f;
-	[SerializeField]
-	bool CameraDisabled = true;
 
 	bool firstButtonPressed = false;
 	float timeOfFirstButton = 0f;
@@ -38,37 +36,9 @@ public class CameraOrbit : MonoBehaviour
 	
 	void LateUpdate ()
 	{
-		if (Input.GetKeyDown(KeyCode.LeftAlt))
-			CameraDisabled = !CameraDisabled;
-
-		// Reset Camera to default possition when R is pressed 2 times in half second.
-		if (Input.GetKeyDown(KeyCode.R) && firstButtonPressed)
+		if (Input.GetKey(KeyCode.LeftAlt))
 		{
-			if (Time.time - timeOfFirstButton < 1.0f)
-			{
-				DefaultCameraPosition();
-			}
-
-			reset = true;
-		}
-
-		if (Input.GetKeyDown(KeyCode.R) && !firstButtonPressed)
-		{
-			firstButtonPressed = true;
-			timeOfFirstButton = Time.time;
-		}
-
-		if (reset)
-		{
-			firstButtonPressed = false;
-			reset = false;
-		}
-
-
-		//If camera is enabled rotate with mouse.
-		if (!CameraDisabled)
-		{
-			if (Input.GetAxis("Mouse X") != 0 ||Input.GetAxis("Mouse Y") != 0)
+			if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0)
 			{
 				LocalRotation.x += Input.GetAxis("Mouse X") * MouseSensitivity;
 				LocalRotation.y -= Input.GetAxis("Mouse Y") * MouseSensitivity;
@@ -79,19 +49,24 @@ public class CameraOrbit : MonoBehaviour
 
 			}
 
-			//Scrolling
-			if (Input.GetAxis("Mouse ScrollWheel") != 0f)
-			{
-				float ScrollAmount = Input.GetAxis("Mouse ScrollWheel") * ScrollSensitivity;
-
-				//Scroll slowing when you are closer to the map;
-				ScrollAmount *= (CameraDistance * 0.3f);
-
-				CameraDistance += ScrollAmount * -1f;
-
-				CameraDistance = Mathf.Clamp(CameraDistance, 1.5f, 100f);
-			}
+			
 		}
+
+		//Scrolling
+		if (Input.GetAxis("Mouse ScrollWheel") != 0f)
+		{
+			float ScrollAmount = Input.GetAxis("Mouse ScrollWheel") * ScrollSensitivity;
+
+			//Scroll slowing when you are closer to the map;
+			ScrollAmount *= (CameraDistance * 0.3f);
+
+			CameraDistance += ScrollAmount * -1f;
+
+			CameraDistance = Mathf.Clamp(CameraDistance, 1.5f, 100f);
+		}
+
+		ResetCamera();
+
 
 		
 
@@ -114,5 +89,31 @@ public class CameraOrbit : MonoBehaviour
 		LocalRotation.x = 0f;
 		CameraDistance = 20f;
 		_xForm_Panner.position = Vector3.zero;
+	}
+
+	void ResetCamera()
+	{
+		// Reset Camera to default possition when R is pressed 2 times in half second.
+		if (Input.GetKeyDown(KeyCode.R) && firstButtonPressed)
+		{
+			if (Time.time - timeOfFirstButton < 1.0f)
+			{
+				DefaultCameraPosition();
+			}
+
+			reset = true;
+		}
+
+		if (Input.GetKeyDown(KeyCode.R) && !firstButtonPressed)
+		{
+			firstButtonPressed = true;
+			timeOfFirstButton = Time.time;
+		}
+
+		if (reset)
+		{
+			firstButtonPressed = false;
+			reset = false;
+		}
 	}
 }

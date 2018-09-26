@@ -17,7 +17,9 @@ public class Tile
 	}
 }
 
-public class MapManager : MonoBehaviour {
+public class MapManager : MonoBehaviour
+{
+
 	PoolManager pm;
 	GameObject map;
 
@@ -60,9 +62,8 @@ public class MapManager : MonoBehaviour {
 		{
 			if (prefab.type == PoolManager.PrefabType.TILE)
 			{
-				tileSize = new Vector3(prefab.objectPrefab.transform.localScale.x, 
-										prefab.objectPrefab.transform.localScale.y, 
-										prefab.objectPrefab.transform.localScale.z);
+				Vector3 localScale = prefab.objectPrefab.transform.localScale;
+				tileSize = new Vector3(localScale.x, localScale.y, localScale.z);
 			}
 		}
 		GenerateMap(mapSize);
@@ -77,20 +78,20 @@ public class MapManager : MonoBehaviour {
 	{
 		if (crystalPosition.x > mapSize.x - 1)
 			crystalPosition.x = mapSize.x - 1;
-		if (crystalPosition.x < 0)
+		else if (crystalPosition.x < 0)
 			crystalPosition.x = 0;
 		if (crystalPosition.y > mapSize.y - 1)
 			crystalPosition.y = mapSize.y - 1;
-		if (crystalPosition.y < 0)
+		else if (crystalPosition.y < 0)
 			crystalPosition.y = 0;
 
 		if (spawnerPosition.x > mapSize.x - 1)
 			spawnerPosition.x = mapSize.x - 1;
-		if (spawnerPosition.x < 0)
+		else if (spawnerPosition.x < 0)
 			spawnerPosition.x = 0;
 		if (spawnerPosition.y > mapSize.y - 1)
 			spawnerPosition.y = mapSize.y - 1;
-		if (spawnerPosition.y < 0)
+		else if (spawnerPosition.y < 0)
 			spawnerPosition.y = 0;
 	}
 #endif
