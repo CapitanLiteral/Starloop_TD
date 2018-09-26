@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+	[HideInInspector]
 	public float damage = 10;
 	[SerializeField]
 	float speed = 1;
@@ -14,19 +15,20 @@ public class Bullet : MonoBehaviour
 	// Use this for initialization
 	void OnEnable ()
 	{
-		//Invoke("PoolBullet", lifeTime);
-		bulletsActive++;
+		
 	}
 	private void OnDisable()
 	{
-		bulletsActive--;
+		Rigidbody rigidbody = GetComponent<Rigidbody>();
+		rigidbody.AddForce(-direction * speed);
+
 	}
 
 	void Update()
 	{
-		gameObject.transform.Translate(direction.x * speed * Time.deltaTime, 
+		/*gameObject.transform.Translate(direction.x * speed * Time.deltaTime, 
 										0,
-										direction.z * speed * Time.deltaTime);
+										direction.z * speed * Time.deltaTime);*/
 
 		Vector2 worldSize = GameManager.Instance.Map.GetWorldSize();
 
@@ -50,8 +52,14 @@ public class Bullet : MonoBehaviour
 
 	public void PoolBullet()
 	{
-		PoolManager.Instance.PoolObject(gameObject);
-		
+		PoolManager.Instance.PoolObject(gameObject);		
+	}
+
+	public void Fire(Vector3 direction, float _damage)
+	{
+		Rigidbody rigidbody = GetComponent<Rigidbody>();
+		rigidbody.AddForce(direction * speed);
+		damage = _damage;
 	}
 
 }

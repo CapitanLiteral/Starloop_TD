@@ -36,7 +36,7 @@ public class CannonTurret : MonoBehaviour
 
 		Mobile mob = target.transform.parent.GetComponent<Mobile>();
 
-		Vector3 dir = target.transform.position + (mob.velocity*Time.deltaTime) - transform.position;
+		Vector3 dir = target.transform.position - transform.position;
 
 		Quaternion lookRotation = Quaternion.LookRotation(dir);
 		Vector3 rotation = Quaternion.Lerp(partToRotate.rotation, lookRotation, Time.deltaTime * rotationSpeed).eulerAngles;
@@ -74,7 +74,7 @@ public class CannonTurret : MonoBehaviour
 			}
 		}
 
-		if (nearestEnemy != null && nearestEnemy != target)
+		if (nearestEnemy != null)
 		{
 			target = nearestEnemy;
 		}
@@ -89,12 +89,12 @@ public class CannonTurret : MonoBehaviour
 	{
 		GameObject bulletObject = PoolManager.Instance.GetObjectByType(PoolManager.PrefabType.BULLET);
 		Bullet bullet = bulletObject.GetComponent<Bullet>();
-		bullet.damage = damage;
 		bulletObject.transform.position = bulletOut.position;
 		bullet.transform.parent = null;// transform;
-		Vector3 direction = target.transform.position - transform.position;
-
-		bullet.direction = direction;
+		Mobile mob = target.transform.parent.GetComponent<Mobile>();
+		Vector3 dir = target.transform.position - transform.position;
+		dir.y = 0f;
+		bullet.Fire(dir, damage);
 	}
 
 	private void OnDrawGizmos()
